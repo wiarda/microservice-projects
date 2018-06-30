@@ -1,12 +1,10 @@
 import express from 'express'
-import {timestampController, currentTime} from '../controllers/timestampController'
+import {timestampController, currentTime, timestampInstructions} from '../controllers/timestampController'
 
 const router = express.Router()
 
 // Entry page
-router.get("/", function(req,res){
-    res.send("add instructions here")
-})
+router.get("/", timestampInstructions)
 
 // Current time
 router.get("/current", currentTime)

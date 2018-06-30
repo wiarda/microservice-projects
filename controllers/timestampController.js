@@ -1,9 +1,18 @@
-import template from '../components/pageTemplate'
-import {renderToString} from 'react-dom-server'
-
+import React from 'react'
+import {renderToString} from 'react-dom/server'
+import pageTemplate from '../components/pageTemplate'
+import TimestampInstructions from '../components/TimestampInstructions'
 
 export const timestampInstructions = function (req,res){
-    res.send(renderToString())
+    let component = renderToString(<TimestampInstructions/>)
+    // console.log("component")
+    // console.log(component)
+
+    let page = pageTemplate("Timestamp Microservices", component)
+
+    // res.writeHead( 200, { "Content-Type": "text/html" } )
+    res.setHeader('Cache-Control', 'assets, max-age=604800')
+    res.send(page)
 }
 
 export const timestampController = function(req,res){

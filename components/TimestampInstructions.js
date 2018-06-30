@@ -1,5 +1,6 @@
+import React from 'react'
 import GridLayout from './GridLayout'
-import pageTemplate from './pageTemplate'
+// import pageTemplate from './pageTemplate'
 
 export default function TimestampInstructions(props){
     let title = (
@@ -13,17 +14,14 @@ export default function TimestampInstructions(props){
             <li>For a current timestamp, go to /api/timestamp/current</li>
             <li>Valid inputs will return a JSON object with the structure:</li>
             <span>{`{"unix": <timestamp>, "utc": <UTC time string>}`}</span>
-            <li></li>
         </ol>
     )
-
-    let content = pageTemplate("Timestamp Microservice",instructions)
-
-    return(
+    
+    return (
         <GridLayout
-            title={title}
-            content={content}
-        />
-        
+        title={title}
+        content={instructions}
+        />  
     )
+
 }
