@@ -1,3 +1,11 @@
+import template from '../components/pageTemplate'
+import {renderToString} from 'react-dom-server'
+
+
+export const timestampInstructions = function (req,res){
+    res.send(renderToString())
+}
+
 export const timestampController = function(req,res){
     let input = req.params.date
     let dateObj
