@@ -1,6 +1,5 @@
 export default function pageTemplate(title=null,content="",scripts=""){
-    // console.log(title)
-    // console.log(content)
+
     let boilerplate =  
         `
         <!DOCTYPE html>
@@ -20,6 +19,5 @@ export default function pageTemplate(title=null,content="",scripts=""){
         </html>
         `
 
-    console.log(boilerplate)
     return boilerplate
 }

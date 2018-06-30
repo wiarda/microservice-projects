@@ -1,6 +1,5 @@
 import React from 'react'
 import GridLayout from './GridLayout'
-// import pageTemplate from './pageTemplate'
 
 export default function TimestampInstructions(props){
     let title = (

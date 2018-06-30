@@ -5,12 +5,8 @@ import TimestampInstructions from '../components/TimestampInstructions'
 
 export const timestampInstructions = function (req,res){
     let component = renderToString(<TimestampInstructions/>)
-    // console.log("component")
-    // console.log(component)
+    let page = pageTemplate("Timestamp Microservice", component)
 
-    let page = pageTemplate("Timestamp Microservices", component)
-
-    // res.writeHead( 200, { "Content-Type": "text/html" } )
     res.setHeader('Cache-Control', 'assets, max-age=604800')
     res.send(page)
 }

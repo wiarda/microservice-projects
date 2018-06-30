@@ -1,7 +1,16 @@
 import React from 'react'
 
 
-export default function GridLayout({title,content}){
+export default function GridLayout({title,content,sampleOutput=null}){
+    let output = sampleOutput ? 
+    (
+        <React.Fragment>
+            <div className="row mt-3">Sample output:</div>
+            <div className="row">{JSON.stringify(sampleOutput)}</div>
+        </React.Fragment>
+    ):
+    null
+    
     return (
         <div className="container-fluid">
             <div className="row">
@@ -14,6 +23,8 @@ export default function GridLayout({title,content}){
                     <div className="row py-3"></div>
                     
                     <div className="row">{content}</div>
+                    
+                    {output}
                                  
                 </div>                 
                 

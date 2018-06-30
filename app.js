@@ -1,3 +1,6 @@
+import timestampRouter from './routes/timestamp'
+import requestHeaderRouter from './routes/requestHeaderRouter'
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,7 +11,6 @@ var sassMiddleware = require('node-sass-middleware');
 //router imports
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-import timestampRouter from './routes/timestamp'
 
 var app = express();
 
@@ -31,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //set up routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use("/api/request-header", requestHeaderRouter)
 app.use("/api/timestamp", timestampRouter)
 
 // catch 404 and forward to error handler
