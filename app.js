@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,8 +10,12 @@ var sassMiddleware = require('node-sass-middleware');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 import timestampRouter from './routes/timestamp'
+import urlShortenerRouter from './routes/urlShortenerRoutes'
 
 var app = express();
+
+// database setup
+var mongoDB = "mongodb://<dbuser>:<dbpassword>@ds125041.mlab.com:25041/api-projects-url-shortener"
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use("/api/timestamp", timestampRouter)
+app.use("/api/shorten", urlShortenerRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
