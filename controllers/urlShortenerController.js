@@ -39,7 +39,7 @@ export const addUrl = [
         let link
 
         if (!errors.isEmpty()){
-            // url failed validation -- add an alert for user
+            // url failed validation -- **TODO** serve an alert to user
             console.log("there's a problem with your link:",errors.array())
         } 
         else {
@@ -57,7 +57,7 @@ export const addUrl = [
                 })
             }
             else {
-                // link already exists, so pull old record and return it
+                // link already exists, so **TODO** pull old record and return it
                 console.log("link already exists")
             }
         }
