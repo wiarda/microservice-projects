@@ -1,16 +1,20 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import pageTemplate from '../components/pageTemplate'
-import UrlShortener from '../components/UrlShortener'
+import UrlShortener from '../components/shortener/UrlShortener'
 import ShortLinks from '../models/urlShortenerModel'
 import {body, validationResult} from 'express-validator/check'
 import {sanitizeBody} from 'express-validator/filter'
 import {isValidUrl} from '../helpers/helpers'
 import Link from '../models/urlShortenerModel'
-import { CLIENT_RENEG_WINDOW } from 'tls';
 
 export function instructions(req,res){
-    let page = pageTemplate("URL Shortener",renderToString(<UrlShortener/>))
+    let page = pageTemplate({
+        title:"URL Shortener"
+        ,content: renderToString(<UrlShortener/>)
+        ,scriptsArr: ["/shortener/client.js"]
+    })
+
     res.send(page)
 }
 
@@ -77,9 +81,10 @@ async function isUrlUnique(url){
 }
 
 async function getUniqueShort(short){
-    let uniqueShort = await Link.findOne({short})
-    if (uniqueShort) {
+    let duplicateShort = await Link.findOne({short})
+    if (duplicateShort) {
         short = getUniqueShort(generateShortUrl())
     }
     else return short
+    // **TODO** reserve short code at this point
 }
