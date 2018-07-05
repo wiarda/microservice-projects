@@ -1,6 +1,12 @@
 import React from 'react'
 import GridLayout from '../GridLayout'
-import Title from '../Title'
+import Form from '../Form'
+import ServerResponse from '../ServerResponse'
+import path from 'path'
+import {isValidUrl} from '../../helpers/helpers'
+
+
+console.log(process.version)
 
 const DEFAULT_STATE = {
     formUrl:"Enter your URL"
@@ -10,7 +16,8 @@ export default class UrlShortener extends React.Component{
     constructor(props){
         super(props)
         this.state = DEFAULT_STATE
-        this.handleForm = this.handleInput.bind(this)
+        this.clearDefaultUrl = this.clearDefaultUrl.bind(this)
+        this.handleInput = this.handleInput.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
@@ -19,40 +26,80 @@ export default class UrlShortener extends React.Component{
     }
 
     handleInput(e){
-        this.setState({formValue: e.target.value})
+        this.setState({formUrl: e.target.value})
     }
 
     handleSubmit(e){
         console.log("submitting", this.state.formUrl)
         e.preventDefault()
+
+        if (isValidUrl(this.state.formUrl)){ 
+            // url is valid, send to server
+            let submit = fetch("/api/shorten", {
+                method: "POST"
+                ,headers: {"Content-Type": "application/json; charset=utf-8"}
+                ,body: JSON.stringify({url: this.state.formUrl})
+            })
+            .then(body=>body.json())
+            .then(function(response){
+                console.log(response)
+                this.setState({response})
+            }.bind(this))
+            .catch(function(err){
+                console.log(err)
+            })
+        }
+        else {
+            this.setState({response: {type:"invalid", message:"Please enter a valid web address."}})
+        }
+              
     }
 
     render(){
-        let title=(
-            <h1 className="mx-auto">URL Shortener</h1>
-        )
-
-        let content = (
-            <form style={{"minWidth": "500px"}} className="mx-auto" onSubmit={this.handleSubmit} action="/api/shorten" method="post">
-                {/* <div className="mb-2">Enter your URL here:</div> */}
-                <input className="w-100" type="text" id="url" name="url" value={this.state.formUrl} onClick={this.clearDefaultUrl} onChange={this.handleInput}/>        
-                <div className="button mt-3 text-center">
-                    <button className="btn btn-primary" type="submit">Shorten</button>
-                </div>
-            </form>
-        )
-
-
+   
         return (
             <GridLayout
-                title={<Title text="URL Shortener"/>}
-                content={content}
-            />
+                title="URL Shortener"
+            >
+                <Form
+                    submitHandler={this.handleSubmit}
+                    fieldValue={this.state.formUrl}
+                    fieldClickHandler={this.clearDefaultUrl}
+                    fieldInputHandler={this.handleInput}
+                    submitButtonText="Shorten"
+                    action="/api/shorten"
+                />
+                <ServerResponse
+                    apiResponse={this.state.response}
+                    parser={shortLinkParser}
+                />
+            </GridLayout>
         )
     }
 }
 
 
-function getShortLink(){
+function shortLinkParser(response){
 
+    switch (response && response.type){
+        case "exists":
+            return (
+            <div>Here's your shortlink:
+                <br/>
+                <a className="text-center d-block" href={`/short/${response.short}`}>
+                    {path.resolve(__dirname,response.short)}
+                </a>
+            </div>
+                )
+
+        case "error":
+            return <div>{response.message}</div>
+
+        case "invalid":
+            return <div>{response.message}</div>
+            
+        default:
+            return null
+    }
+    
 }

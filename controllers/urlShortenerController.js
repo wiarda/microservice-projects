@@ -39,30 +39,32 @@ export const addUrl = [
     ,async function(req, res, next){
         const errors = validationResult(req)
         let uniqueShort = getUniqueShort(generateShortUrl())
-        let isUnique = isUrlUnique(req.body.url)
-        let link
+        let alreadyExists = doesDocExist(req.body.url)
 
-        if (!errors.isEmpty()){
-            // url failed validation -- **TODO** serve an alert to user
-            console.log("there's a problem with your link:",errors.array())
+        if (!errors.isEmpty()){ // server side validation failed
+            console.log("Server side link validation failed:",errors.array())
+            res.json({type:"error",message:`${req.body.url} is an invalid link. Please enter a valid link.`})
         } 
-        else {
-            // url is valid
-            if (await isUnique) { 
-                // submitted url doesn't exist in database
+        else { // url is valid
+            let exists = await alreadyExists
+            if (exists) { 
+                // link already exists, so returning it
+                let {url, short} = exists
+                res.json({type:"exists", url, short})               
+            }
+            else { // submitted url doesn't exist in database yet
                 let short = await uniqueShort
-                let link = new Link({url: req.body.url, short})
-                console.log("unique link", req.body.url, short)
-                
+                let document = {url: req.body.url, short}
+                let link = new Link(document)
+                 
                 // add document to database
                 link.save(err=>{
-                    if (err) res.send(err)
-                    else res.send(generateShortUrl())
+                    if (err) res.json({type:"error",message:`Sorry! Our database is down: ${err}`})
+                    else{
+                        // return short link
+                        res.json({type:"exists", ...document})
+                    } 
                 })
-            }
-            else {
-                // link already exists, so **TODO** pull old record and return it
-                console.log("link already exists")
             }
         }
     }
@@ -72,12 +74,14 @@ function generateShortUrl(){
     return (Date.now()-1530636000000).toString(32)
 }
 
-async function isUrlUnique(url){
+//checks if a document for this url already exists,
+//and if so, returns it
+async function doesDocExist(url){
     console.log("checking if",url,"is unique")
     let duplicateUrl = await Link.findOne({url})
     console.log ("records:",duplicateUrl)
-    if (duplicateUrl) return false
-    else return true
+    if (duplicateUrl) return duplicateUrl
+    else return false
 }
 
 async function getUniqueShort(short){
