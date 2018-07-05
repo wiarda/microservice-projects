@@ -1,35 +1,35 @@
 import React from 'react'
+import Title from './Title'
+import Children from './Children'
 
-
-export default function GridLayout({title,content,sampleOutput=null}){
-    let output = sampleOutput ? 
-    (
-        <React.Fragment>
-            <div className="row mt-3">Sample output:</div>
-            <div className="row">{JSON.stringify(sampleOutput)}</div>
-        </React.Fragment>
-    ):
-    null
-    
-    return (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-0 col-sm-1 col-lg-2"></div>    
-                
-                <div className="col-12 col-sm-10 col-lg-8">
+export default class GridLayout extends React.Component{
+    constructor(props){
+        super(props)
+    }
+      
+    render(){
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-0 col-sm-1 col-lg-2"></div>    
                     
-                    <div className="row mt-5">{title}</div>
+                    <div className="col-12 col-sm-10 col-lg-8">
+                        
+                        <div className="row mt-5">
+                            <Title text={this.props.title}/>
+                        </div>
+                        
+                        <div className="row py-3"></div>
+                        
+                        <Children 
+                            children={this.props.children}
+                        />
+                        
+                    </div>                 
                     
-                    <div className="row py-3"></div>
-                    
-                    <div className="row">{content}</div>
-                    
-                    {output}
-                                 
-                </div>                 
-                
-                <div className="col-0 col-sm-1 col-lg-2"></div>    
-            </div>
-        </div>   
-    )
+                    <div className="col-0 col-sm-1 col-lg-2"></div>    
+                </div>
+            </div>   
+        )
+    }
 }
