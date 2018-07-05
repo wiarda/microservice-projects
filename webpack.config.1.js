@@ -1,4 +1,3 @@
-var path = require("path")
 var webpack = require('webpack')
 var path = require('path')
 var HTMLWebpackPlugin = require('html-webpack-plugin')
@@ -38,8 +37,23 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const ROUTE_PATH = "/api/shorten"
 
 
-const webpackConfigDev = {
-    mode: "development"
+module.exports = (env, argv) => {
+  let mode = argv.mode
+  let externals = mode === "development" ? {} : {
+    react: 'React'
+    ,'react-dom': 'ReactDOM'
+  }
+  
+  // Set up Routing
+
+  // let routerPath = mode === "development" ? "/" : ROUTE_PATH
+  // console.log("router path:",routerPath)
+  // const basename = new webpack.DefinePlugin({
+  //     BASENAME: JSON.stringify(routerPath)
+  //   })
+
+  return {
+    mode: mode
 
     ,entry: __dirname + "/client.js"
 
@@ -103,48 +117,28 @@ const webpackConfigDev = {
     // ,externals: externals
 
     ,output: {
-        filename: 'client.js'
-        // ,path: __dirname + '/build/shortener'
-        ,path: path.join(__dirname, '/build/shortener') // for serving to node
-        // publicPath for dev server
-        // ,publicPath: '/'
-        ,chunkFilename: '[name].bundle.js'
-      }
-  
-      ,devtool: "source-map"
-  
-      ,devServer: {
-        historyApiFallback:true // for react router
-        ,contentBase: path.join(__dirname, '/build/shortener')
-        ,watchContentBase: true
-        ,proxy: [ // redirecting requests to webpack-dev-server to node server
-          {
-            context: ["/api"]
-            ,target: "http://localhost:3000"
-            ,secure: false
-          }
-          ,{
-            context: ["/build"]
-            ,target: "http://localhost:3000"
-            ,secure: false
-          }
-        ]
-        ,port: 8000
-        ,overlay: {
-          warnings: true
-          ,errors: true
-        }
-      }
+      filename: 'client.js'
+      ,path: __dirname + '/build/shortener'
+      // publicPath for dev server
+      // ,publicPath: '/'
+      ,chunkFilename: '[name].bundle.js'
+    }
+
+    ,devTool: "source-map"
+
+    ,devServer: {
+      historyApiFallback:true
+    }
 
     ,plugins: [
-      // UglifyJSConfig
+      UglifyJSConfig
       // HTMLWebpackConfig
       // ,new BundleAnalyzerPlugin()
       // ,basename
-      require('precss')
+      ,require('precss')
       ,require('autoprefixer')
       ,miniCssConfig
     ]
   }
 
-  module.exports = webpackConfigDev
+}

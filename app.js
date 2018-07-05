@@ -44,7 +44,7 @@ app.use(sassMiddleware({
 
 // serve client-side files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'build')));
+app.use("/build",express.static(path.join(__dirname, 'build')));
 
 //set up routes
 app.use('/', indexRouter);

@@ -7,9 +7,9 @@
     "devstart": "SET DEBUG=express-test:* & nodemon ./bin/www --exec babel-node",
     "build": "babel ./bin/www -d dist",
     "serve": "node dist/www",
-    "devLocal": "webpack-dev-server --mode development",
-    "buildLocal": "webpack --mode production",
-    "devbuildLocal": "webpack --mode development"
+    "devServerLocal": "webpack-dev-server --mode development",
+    "prodBuild": "webpack --mode production",
+    "devBuild": "webpack --mode development"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

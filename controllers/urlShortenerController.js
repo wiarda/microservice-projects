@@ -12,7 +12,7 @@ export function instructions(req,res){
     let page = pageTemplate({
         title:"URL Shortener"
         ,content: renderToString(<UrlShortener/>)
-        ,scriptsArr: ["/shortener/client.js"]
+        ,scriptsArr: ["/build/shortener/client.js"]
     })
 
     res.send(page)
