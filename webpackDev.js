@@ -106,7 +106,7 @@ const webpackConfigDev = {
         filename: 'client.js'
         // ,path: __dirname + '/build/shortener'
         ,path: path.join(__dirname, 'build') // for serving to node
-        // publicPath for dev server
+        // publicPath for dev server (where webserver's files are emitted to)
         ,publicPath: '/build/shortener/'
         ,chunkFilename: '[name].bundle.js'
       }
