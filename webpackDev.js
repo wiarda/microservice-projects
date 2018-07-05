@@ -105,9 +105,9 @@ const webpackConfigDev = {
     ,output: {
         filename: 'client.js'
         // ,path: __dirname + '/build/shortener'
-        ,path: path.join(__dirname, '/build/shortener') // for serving to node
+        ,path: path.join(__dirname, 'build') // for serving to node
         // publicPath for dev server
-        // ,publicPath: '/'
+        ,publicPath: '/build/shortener/'
         ,chunkFilename: '[name].bundle.js'
       }
   
@@ -115,20 +115,15 @@ const webpackConfigDev = {
   
       ,devServer: {
         historyApiFallback:true // for react router
+        ,index:""
         ,contentBase: path.join(__dirname, '/build/shortener')
         ,watchContentBase: true
-        ,proxy: [ // redirecting requests to webpack-dev-server to node server
-          {
-            context: ["/api"]
+        ,proxy:          
+         [{ // redirecting webpack-dev-server to node server
+            context: ()=>true
             ,target: "http://localhost:3000"
             ,secure: false
-          }
-          ,{
-            context: ["/build"]
-            ,target: "http://localhost:3000"
-            ,secure: false
-          }
-        ]
+          }]
         ,port: 8000
         ,overlay: {
           warnings: true
