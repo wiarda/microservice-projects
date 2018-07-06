@@ -5,7 +5,9 @@ export default function Form({submitHandler
     ,fieldClickHandler
     ,fieldInputHandler
     ,submitButtonText
-    ,action="/"}){
+    ,action="/"
+    ,validity=""    
+}){
     
         return (
             <form 
@@ -16,7 +18,7 @@ export default function Form({submitHandler
                 method="post" 
             >
                 <input 
-                    className="w-100" 
+                    className={`w-100 form-control ${validity}`} 
                     type="text" 
                     id="url" 
                     name="url" 
