@@ -43,7 +43,7 @@ export const addUrl = [
 
         if (!errors.isEmpty()){ // server side validation failed
             console.log("Server side link validation failed:",errors.array())
-            res.json({type:"error",message:`${req.body.url} is an invalid link. Please enter a valid link.`})
+            res.json({type:"error",message:`"${req.body.url}" is an invalid link. Please enter a valid link.`})
         } 
         else { // url is valid
             let exists = await alreadyExists
