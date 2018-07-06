@@ -22,7 +22,11 @@ var app = express();
 
 // database setup
 var mongoDB = process.env.DB_CONNECTION
-mongoose.connect(mongoDB)
+mongoose.connect(mongoDB, {
+  reconnectTries: Number.MAX_VALUE 
+  ,reconnectInterval:1000
+  }  
+)
 mongoose.Promise = global.Promise
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "MongoDB connection error:"))
