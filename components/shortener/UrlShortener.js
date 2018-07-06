@@ -10,6 +10,7 @@ console.log(process.version)
 
 const DEFAULT_STATE = {
     formUrl:"Enter your URL"
+    ,validity:""
 }
 
 export default class UrlShortener extends React.Component{
@@ -22,7 +23,8 @@ export default class UrlShortener extends React.Component{
     }
 
     clearDefaultUrl(){
-        if (this.state.formUrl == DEFAULT_STATE.formUrl) this.setState({formUrl:""})
+        if (this.state.formUrl == DEFAULT_STATE.formUrl) this.setState({formUrl:"", validity:""})
+        else if(this.state.validity !== "") this.setState({validity:""})
     }
 
     handleInput(e){
@@ -48,9 +50,10 @@ export default class UrlShortener extends React.Component{
             .catch(function(err){
                 console.log(err)
             })
+            this.setState({validity:"is-valid"})
         }
         else {
-            this.setState({response: {type:"invalid", message:"Please enter a valid web address."}})
+            this.setState({response: {type:"invalid", message:"Please enter a valid web address."}, validity:"is-invalid"})
         }
               
     }
@@ -68,6 +71,7 @@ export default class UrlShortener extends React.Component{
                     fieldInputHandler={this.handleInput}
                     submitButtonText="Shorten"
                     action="/api/shorten"
+                    validity={this.state.validity}
                 />
                 <ServerResponse
                     apiResponse={this.state.response}
@@ -97,7 +101,7 @@ function shortLinkParser(response){
 
         case "invalid":
             return <div>{response.message}</div>
-            
+
         default:
             return null
     }
