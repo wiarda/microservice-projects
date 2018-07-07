@@ -20,29 +20,24 @@ export function instructions(req,res){
     res.send(page)
 }
 
-// export function shortenUrl(req,res){
-//     console.log(req.body.url)
-//     body("url","Please enter a url to shorten.").isLength({min: 1})
-//     sanitizeBody("url").trim().escape()
-
-//     res.send(req.body)
-// }
-
 export function showAllLinks(req,res){
     ShortLinks.find({}, "url")
 }
 
 export async function serveLink(req,res){
     let short = req.params.short
-    //add validation
-    let exists = await doesDocExist(short, "short")
-    
-    if (exists) { // redirect to the link
-        console.log("found the link", unescapeUri(exists.url))
-        res.redirect(prefixUrl(unescapeUri(exists.url)))
-    }
-    else { // shortlink doesn't exist
-        let page = pageTemplate({
+
+    if(isValidShortLink(short)) {
+        // shortlink is valid -- check if it exists in DB
+        let exists = await doesDocExist(short, "short")    
+        if (exists) { // redirect to the link
+            console.log("found the link", unescapeUri(exists.url))
+            res.redirect(prefixUrl(unescapeUri(exists.url)))
+        }
+    } 
+
+    // shortlink is invalid or doesn't exist
+    let errorPage = pageTemplate({
             title: "Sorry, this shortlink doesn't exist." 
             ,content: renderToString(
                 <GridLayout title="Sorry, this shortlink doesn't exist.">
@@ -50,8 +45,7 @@ export async function serveLink(req,res){
                 </GridLayout>
             )
         })
-        res.send(page)
-    }
+    res.send(errorPage)
 }
 
 
@@ -133,4 +127,13 @@ function unescapeUri(address){
     return address.replace(hexRE, function(match,p1){
         return String.fromCharCode(parseInt(p1,16))
     })
+}
+
+/**
+ * 
+ * @param {string} short 
+ */
+function isValidShortLink(short){
+    let re = /^[a-zA-Z0-9]+$/
+    return re.test(short)
 }
