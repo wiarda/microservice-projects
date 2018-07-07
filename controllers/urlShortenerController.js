@@ -2,11 +2,13 @@ import React from 'react'
 import {renderToString} from 'react-dom/server'
 import pageTemplate from '../components/pageTemplate'
 import UrlShortener from '../components/shortener/UrlShortener'
+import GridLayout from '../components/GridLayout'
 import ShortLinks from '../models/urlShortenerModel'
 import {body, validationResult} from 'express-validator/check'
-import {sanitizeBody} from 'express-validator/filter'
+import {sanitizeBody, sanitizeParam} from 'express-validator/filter'
 import {isValidUrl} from '../helpers/helpers'
 import Link from '../models/urlShortenerModel'
+import {serverAddress} from '../bin/www'
 
 export function instructions(req,res){
     let page = pageTemplate({
@@ -18,16 +20,38 @@ export function instructions(req,res){
     res.send(page)
 }
 
-export function shortenUrl(req,res){
-    console.log(req.body.url)
-    body("url","Please enter a url to shorten.").isLength({min: 1})
-    sanitizeBody("url").trim().escape()
+// export function shortenUrl(req,res){
+//     console.log(req.body.url)
+//     body("url","Please enter a url to shorten.").isLength({min: 1})
+//     sanitizeBody("url").trim().escape()
 
-    res.send(req.body)
-}
+//     res.send(req.body)
+// }
 
 export function showAllLinks(req,res){
     ShortLinks.find({}, "url")
+}
+
+export async function serveLink(req,res){
+    let short = req.params.short
+    //add validation
+    let exists = await doesDocExist(short, "short")
+    
+    if (exists) { // redirect to the link
+        console.log("found the link", unescapeUri(exists.url))
+        res.redirect(prefixUrl(unescapeUri(exists.url)))
+    }
+    else { // shortlink doesn't exist
+        let page = pageTemplate({
+            title: "Sorry, this shortlink doesn't exist." 
+            ,content: renderToString(
+                <GridLayout title="Sorry, this shortlink doesn't exist.">
+                    <div className="mx-auto">Would you like to <a href="/api/shorten">make a new one?</a></div>
+                </GridLayout>
+            )
+        })
+        res.send(page)
+    }
 }
 
 
@@ -50,7 +74,7 @@ export const addUrl = [
             if (exists) { 
                 // link already exists, so returning it
                 let {url, short} = exists
-                res.json({type:"exists", url, short})               
+                res.json({type:"exists", url, short, serverAddress, domain:req.headers.host})               
             }
             else { // submitted url doesn't exist in database yet
                 let short = await uniqueShort
@@ -62,7 +86,7 @@ export const addUrl = [
                     if (err) res.json({type:"error",message:`Sorry! Our database is down: ${err}`})
                     else{
                         // return short link
-                        res.json({type:"exists", ...document})
+                        res.json({type:"exists", serverAddress, domain:req.headers.host, ...document})
                     } 
                 })
             }
@@ -76,9 +100,9 @@ function generateShortUrl(){
 
 //checks if a document for this url already exists,
 //and if so, returns it
-async function doesDocExist(url){
-    console.log("checking if",url,"is unique")
-    let duplicateUrl = await Link.findOne({url})
+async function doesDocExist(value, prop="url"){
+    console.log("checking if",value,"is unique")
+    let duplicateUrl = await Link.findOne({[prop]:value})
     console.log ("records:",duplicateUrl)
     if (duplicateUrl) return duplicateUrl
     else return false
@@ -91,4 +115,22 @@ async function getUniqueShort(short){
     }
     else return short
     // **TODO** reserve short code at this point
+}
+
+function prefixUrl(address){
+    // prefixes address with "http://" if necessary
+    let re = /^https?:\/\//i
+    if (re.test(address)) return address
+    else return `http://${address}`
+}
+
+/**
+ * 
+ * @param {string} address 
+ */
+function unescapeUri(address){
+    let hexRE = /&#x(\w+);/g
+    return address.replace(hexRE, function(match,p1){
+        return String.fromCharCode(parseInt(p1,16))
+    })
 }

@@ -62,7 +62,7 @@ export default class UrlShortener extends React.Component{
    
         return (
             <GridLayout
-                title="URL Shortener"
+                title={this.props.title || "URL Shortener"}
             >
                 <Form
                     submitHandler={this.handleSubmit}
@@ -88,10 +88,10 @@ function shortLinkParser(response){
     switch (response && response.type){
         case "exists":
             return (
-            <div>Here's your shortlink:
+            <div className="text-center">Here's your shortlink:
                 <br/>
                 <a className="text-center d-block" href={`/short/${response.short}`}>
-                    {path.resolve(__dirname,response.short)}
+                    {`${response.domain}/short/${response.short}`}
                 </a>
             </div>
                 )
