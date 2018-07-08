@@ -8,6 +8,7 @@ import {body, validationResult} from 'express-validator/check'
 import {sanitizeBody, sanitizeParam} from 'express-validator/filter'
 import {isValidUrl} from '../helpers/helpers'
 import Link from '../models/urlShortenerModel'
+import Index from '../models/indexModel'
 import {serverAddress} from '../bin/www'
 
 export function instructions(req,res){
@@ -56,7 +57,8 @@ export const addUrl = [
     ,sanitizeBody("url").trim().escape()
     ,async function(req, res, next){
         const errors = validationResult(req)
-        let uniqueShort = getUniqueShort(generateShortUrl())
+        let nextShort = getNextShort()
+        // let uniqueShort = getUniqueShort(generateShortUrl())
         let alreadyExists = doesDocExist(req.body.url)
 
         if (!errors.isEmpty()){ // server side validation failed
@@ -71,7 +73,7 @@ export const addUrl = [
                 res.json({type:"exists", url, short, serverAddress, domain:req.headers.host})               
             }
             else { // submitted url doesn't exist in database yet
-                let short = await uniqueShort
+                let short = await nextShort
                 let document = {url: req.body.url, short}
                 let link = new Link(document)
                  
@@ -88,8 +90,9 @@ export const addUrl = [
     }
 ]
 
-function generateShortUrl(){
-    return (Date.now()-1530636000000).toString(32)
+
+export function convertToShort(index){
+    return Number(index).toString(32)
 }
 
 //checks if a document for this url already exists,
@@ -102,13 +105,20 @@ async function doesDocExist(value, prop="url"){
     else return false
 }
 
-async function getUniqueShort(short){
-    let duplicateShort = await Link.findOne({short})
-    if (duplicateShort) {
-        short = getUniqueShort(generateShortUrl())
-    }
-    else return short
-    // **TODO** reserve short code at this point
+async function getNextShort(){
+    let next = await Index.findOneAndUpdate(
+        {name: "shortener"}
+        ,{$inc: {index: 1}}
+        ,{new: true}
+    )
+
+    if (next) return next.short
+    else return getNextShort()
+}
+
+export async function showNext(req,res){
+    let next = await getNextShort()
+    res.send(next)
 }
 
 function prefixUrl(address){

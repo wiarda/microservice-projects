@@ -4,8 +4,8 @@ const Schema = mongoose.Schema
 
 const LinkSchema = new Schema(
     {
-        url: {type:String, required:true}
-        ,short: {type:String, required:true}   
+        url: {type:String, required:true, unique:true}
+        ,short: {type:String, required:true, unique:true}   
     }
 )
 
