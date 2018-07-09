@@ -2,6 +2,7 @@ import timestampRouter from './routes/timestamp'
 import requestHeaderRouter from './routes/requestHeaderRouter'
 import urlShortenerRouter from './routes/urlShortenerRoutes'
 import urlShortLinkRoutes from './routes/urlShortLinkRoutes'
+import fileMetaDataRoutes from './routes/metadataRoutes'
 import mongoose from 'mongoose'
 import dotenv from "dotenv"
 
@@ -58,6 +59,7 @@ app.use("/api/request-header", requestHeaderRouter)
 app.use("/api/timestamp", timestampRouter)
 app.use("/api/shorten", urlShortenerRouter)
 app.use("/short", urlShortLinkRoutes)
+app.use("/api/metadata", fileMetaDataRoutes)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

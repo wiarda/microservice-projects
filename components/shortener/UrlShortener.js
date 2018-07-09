@@ -2,7 +2,6 @@ import React from 'react'
 import GridLayout from '../GridLayout'
 import Form from '../Form'
 import ServerResponse from '../ServerResponse'
-import path from 'path'
 import {isValidUrl} from '../../helpers/helpers'
 
 

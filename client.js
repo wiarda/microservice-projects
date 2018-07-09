@@ -1,9 +1,3 @@
-import ReactDOM from 'react-dom'
-import React from 'react'
-import UrlShortener from 'Components/shortener/UrlShortener'
-
-
-console.log("hydrating")
-
-ReactDOM.hydrate(<UrlShortener/>, document.getElementById("root"))
+import(/* webpackChunkName: "shortener" */ "./app/shortener/shortenerClient")
+import(/* webpackChunkName: "metadata" */ "./app/metadata/metadataClient")
 
