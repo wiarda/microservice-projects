@@ -2,6 +2,6 @@
     "presets": ["env", "react"]
     ,"plugins": [
         ["transform-object-rest-spread",{"useBuildIns":true}]
-        // ,"transform-runtime"
+        ,"syntax-dynamic-import" 
     ]
 }
