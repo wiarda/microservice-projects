@@ -2,10 +2,17 @@ export default function pageTemplate({
         title=""
         ,content=""
         ,scriptsArr=[]
+        ,stylesArr=[]
     }){
-    let scripts = scriptsArr.reduce( (acc,curr)=>{
-        return acc + `<script type="text/javascript" src="${curr}" async></script>`
-    },"")
+    
+        let scripts = scriptsArr.reduce( (acc,cur)=>{
+            return acc + `<script type="text/javascript" src="${cur}" async></script>`
+        },"")
+
+        let styles = stylesArr.reduce( (acc,cur)=>{
+            return acc + `<link rel="StyleSheet" href="${cur}" type="text/css"/>`
+        },"")
+
     console.log("scripts",scripts)
 
     let boilerplate =  
@@ -16,6 +23,7 @@ export default function pageTemplate({
                 <meta charset="utf-8">
                 <title>${title}</title>
                 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+                ${styles}
                 ${scripts}
             </head>
             <body>
