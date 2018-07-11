@@ -5,3 +5,4 @@ prod-webpack.config.js
 font-awesome.config.js
 *.psd
 .env
+public/uploads
