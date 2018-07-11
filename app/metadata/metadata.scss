@@ -1,0 +1,28 @@
+$bootstrap-blue: #007bff;
+$baby-blue: hsla(211, 89%, 72%, 0.548);
+
+#drop-zone{
+    border: 1px dashed $bootstrap-blue;
+}
+
+#drop-zone.active-dragging-container{
+    background-color: $baby-blue;
+    border: 2px solid $bootstrap-blue;
+    & *{
+        pointer-events: none;
+        visibility: hidden;
+    }    
+} 
+
+
+#input-file{
+    display:none;
+}
+
+#input-button{
+    max-width: 180px;
+    min-width: 120px;
+    width: 20%;
+}
+
+
