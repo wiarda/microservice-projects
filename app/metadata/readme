@@ -1,0 +1,6 @@
+To dos:
+-error handling
+-set up db to store easy download links
+-clean files after 24hrs
+-set filesize limits for uploads
+-api response handling for multiple file uploads

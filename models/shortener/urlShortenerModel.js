@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { shortenerDb } from '../connections';
 const SHORT_PATH = "/short/"
 const Schema = mongoose.Schema
 
@@ -14,5 +15,5 @@ LinkSchema.virtual("link")
     return SHORT_PATH + this.short
 })
 
-const Links = mongoose.model("Links", LinkSchema)
+const Links = shortenerDb.model("Links", LinkSchema)
 export default Links

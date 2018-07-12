@@ -3,12 +3,11 @@ import {renderToString} from 'react-dom/server'
 import pageTemplate from '../components/pageTemplate'
 import UrlShortener from '../components/shortener/UrlShortener'
 import GridLayout from '../components/GridLayout'
-import ShortLinks from '../models/urlShortenerModel'
 import {body, validationResult} from 'express-validator/check'
 import {sanitizeBody, sanitizeParam} from 'express-validator/filter'
 import {isValidUrl} from '../helpers/helpers'
-import Link from '../models/urlShortenerModel'
-import Index from '../models/indexModel'
+import Link from '../models/shortener/urlShortenerModel'
+import Index from '../models/shortener/indexModel'
 import {serverAddress} from '../bin/www'
 
 export function instructions(req,res){
@@ -21,16 +20,12 @@ export function instructions(req,res){
     res.send(page)
 }
 
-export function showAllLinks(req,res){
-    ShortLinks.find({}, "url")
-}
-
 export async function serveLink(req,res){
     let short = req.params.short
 
     if(isValidShortLink(short)) {
         // shortlink is valid -- check if it exists in DB
-        let exists = await doesDocExist(short, "short")    
+        let exists = await doesDocExist(Link, short, "short")    
         if (exists) { // redirect to the link
             console.log("found the link", unescapeUri(exists.url))
             res.redirect(prefixUrl(unescapeUri(exists.url)))
@@ -57,7 +52,7 @@ export const addUrl = [
     ,sanitizeBody("url").trim().escape()
     ,async function(req, res, next){
         const errors = validationResult(req)
-        let nextShort = getNextShort()
+        let nextShort = getNextShort(Index)
         // let uniqueShort = getUniqueShort(generateShortUrl())
         let alreadyExists = doesDocExist(req.body.url)
 
@@ -97,28 +92,25 @@ export function convertToShort(index){
 
 //checks if a document for this url already exists,
 //and if so, returns it
-async function doesDocExist(value, prop="url"){
-    console.log("checking if",value,"is unique")
-    let duplicateUrl = await Link.findOne({[prop]:value})
-    console.log ("records:",duplicateUrl)
+export async function doesDocExist(collection, value, prop="url"){
+    let duplicateUrl = await collection.findOne({[prop]:value})
+
     if (duplicateUrl) return duplicateUrl
     else return false
 }
 
-async function getNextShort(){
-    let next = await Index.findOneAndUpdate(
+export async function getNextShort(db){
+    let next = await db.findOneAndUpdate(
         {name: "shortener"}
         ,{$inc: {index: 1}}
-        ,{new: true}
+        ,{
+            new: true
+            ,upsert: true
+        }
     )
 
     if (next) return next.short
-    else return getNextShort()
-}
-
-export async function showNext(req,res){
-    let next = await getNextShort()
-    res.send(next)
+    else return getNextShort(db)
 }
 
 function prefixUrl(address){
@@ -143,7 +135,7 @@ function unescapeUri(address){
  * 
  * @param {string} short 
  */
-function isValidShortLink(short){
+export function isValidShortLink(short){
     let re = /^[a-zA-Z0-9]+$/
     return re.test(short)
 }

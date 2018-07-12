@@ -1,13 +1,14 @@
 import timestampRouter from './routes/timestamp'
 import requestHeaderRouter from './routes/requestHeaderRouter'
 import urlShortenerRouter from './routes/urlShortenerRoutes'
-import urlShortLinkRoutes from './routes/urlShortLinkRoutes'
-import fileMetaDataRoutes from './routes/metadataRoutes'
+import urlShortLinkRouter from './routes/urlShortLinkRoutes'
+import fileMetaDataRouter from './routes/metadataRoutes'
+import sharefileRouter from './routes/sharefileRoutes'
 import mongoose from 'mongoose'
-import dotenv from "dotenv"
+// import dotenv from "dotenv"
 
 // load environment variables
-dotenv.config()
+// dotenv.config()
 
 var createError = require('http-errors');
 var express = require('express');
@@ -17,21 +18,21 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 
 //router imports
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
 // database setup
-var mongoDB = process.env.DB_CONNECTION
-mongoose.connect(mongoDB, {
-  reconnectTries: Number.MAX_VALUE 
-  ,reconnectInterval:1000
-  }  
-)
+// var mongoDB = process.env.DB_SHORTENER
+// const defaultOptions = {
+//   reconnectTries: Number.MAX_VALUE 
+//   ,reconnectInterval:1000
+// }
+// mongoose.connect(mongoDB, defaultOptions)
 mongoose.Promise = global.Promise
-const db = mongoose.connection
-db.on("error", console.error.bind(console, "MongoDB connection error:"))
+// const db = mongoose.connection
+// db.on("error", console.error.bind(console, "MongoDB connection error:"))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,8 +59,9 @@ app.use('/users', usersRouter);
 app.use("/api/request-header", requestHeaderRouter)
 app.use("/api/timestamp", timestampRouter)
 app.use("/api/shorten", urlShortenerRouter)
-app.use("/short", urlShortLinkRoutes)
-app.use("/api/metadata", fileMetaDataRoutes)
+app.use("/short", urlShortLinkRouter)
+app.use("/api/metadata", fileMetaDataRouter)
+app.use("/share", sharefileRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -77,4 +79,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = app
+
+
