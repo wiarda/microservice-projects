@@ -91,3 +91,6 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+// initiate server event loop
+var eventLoop = require("./eventLoop").default()

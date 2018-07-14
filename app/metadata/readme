@@ -1,6 +1,12 @@
+Features:
+-Upload a file and receive a temporary link to the file
+-File link will expire in 24hrs
+
+
+
 To dos:
--error handling
--set up db to store easy download links
--clean files after 24hrs
+-count down for file
 -set filesize limits for uploads
 -api response handling for multiple file uploads
+-error handling
+
