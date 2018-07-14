@@ -3,11 +3,12 @@ import GridLayout from '../GridLayout'
 import UploadForm from '../UploadForm'
 import ServerResponse from '../ServerResponse'
 import UploadedFileFeedback from './UploadedFileFeedback';
+import { FILE_SIZE_LIMIT } from '../../app/metadata/settings';
 
 const defaultState = {
     dragDrop: false
     ,dragActive: false
-    ,apiResponse: {type:"Placeholder"}
+    ,apiResponse: {type:"placeholder"}
 }
 
 export default class MetaDataService extends React.Component{
@@ -51,25 +52,31 @@ export default class MetaDataService extends React.Component{
 
     uploadFile(file){
         console.log("uploading",file)
-        let form = new FormData()
         
-        form.append("uploadedFile", file)
-        
-        fetch("/api/metadata/upload", {
-            method: "POST"
-            ,body: form
-        })
-        .then(body=>body.json())
-        .then(apiResponse=>this.setState({apiResponse}))
+        if (file.size < FILE_SIZE_LIMIT) {
+            let form = new FormData()
+            form.append("uploadedFile", file)
+            
+            fetch("/api/metadata/upload", {
+                method: "POST"
+                ,body: form
+            })
+            .then(body=>body.json())
+            .then(apiResponse=>this.setState({apiResponse}))
+            //add code to handle server timeout
+        }
+        else {
+          this.setState({apiResponse:{type:"Oversize"}})  
+        }
     }
 
     render(){
 
         return (
             <GridLayout 
-                title={this.props.title || "File Metadata Microservice"}
+                title={this.props.title || "Temporary File Sharing Service"}
             >
-                <div className="mx-auto mb-3">Upload a file to view its metadata.</div>
+                <div className="mx-auto mb-3">File share links will last for 24 hours.</div>
     
                 <UploadForm
                     supportsDragDrop = {this.state.dragDrop}
@@ -94,8 +101,6 @@ export default class MetaDataService extends React.Component{
 function parseMetadata(metadata){
    
     switch (metadata.type){
-        case "Placeholder":
-            return "Server response goes here."
         case "uploaded":
             return (
                 <UploadedFileFeedback
@@ -105,8 +110,17 @@ function parseMetadata(metadata){
                     link={metadata.link}
                 />
             )
+        case "Oversize":
+            return (
+                <div className="row">Sorry! We only accept files up to 10mb in size.</div>
+            )
         default:
-            return null
+            return (
+                <React.Fragment>
+                    <div className="row">This service accepts files up to 10mb in size.</div>
+                </React.Fragment>
+            )
+                
     }
 }
 
