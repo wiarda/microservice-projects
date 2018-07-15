@@ -29,7 +29,7 @@ export default class UploadForm extends React.Component{
                         type="file" 
                         className="form-control-file" 
                         name="uploadedFile"
-                        onChange={this.props.dropHandler}
+                        onChange={this.props.submitHandler}
                     />
                     <label id="input-button" className="btn btn-primary" htmlFor="input-file">Select a file</label>
                 </div>

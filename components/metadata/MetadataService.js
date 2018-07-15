@@ -35,9 +35,16 @@ export default class MetaDataService extends React.Component{
         this.setState({dragActive: false})
     }
 
+    submitHandler(e){
+        console.log("submitting form")
+        console.log(this)
+        console.log(e.files)
+    }
+
     dropHandler(e){
         console.log("drop handler")
         this.stopPropagation(e)
+        console.log(e)
         let files = [...e.dataTransfer.files]
   
         files.forEach(this.uploadFile.bind(this))
@@ -85,6 +92,7 @@ export default class MetaDataService extends React.Component{
                     dragOverHandler={this.dragOverHandler.bind(this)}
                     dragLeaveHandler={this.dragLeaveHandler.bind(this)}
                     dropHandler={this.dropHandler.bind(this)}
+                    submitHandler={this.submitHandler.bind(this)}
                 />
     
                 <ServerResponse
