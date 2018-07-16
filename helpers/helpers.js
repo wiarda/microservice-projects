@@ -32,9 +32,16 @@ export function resolveLink(link){
   el.remove()
  }
 
- export function curry(){
-  console.log(arguments)
-  return function(){
-    console.log("input here")
+ /**
+ * Curries a function. 
+ * First parameter is a function
+ * Second parameter is the this value to pass to the curried function
+ */
+export function curry(){
+  let [fn,context,...defaults] = arguments
+  return function(...args){
+      // console.log("curried function: arguments",[...defaults,...args])
+      // console.log("context", context)
+      return fn.apply(context,[...defaults,...args])
   }
- }
+}

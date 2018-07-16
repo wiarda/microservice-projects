@@ -1,116 +1,61 @@
-const ml = {
-    name: "Millileter"
-    ,namePlural: "Milliliters"
-    ,abbr: "ml"
-    ,abbrPrint: "ml"
-    ,defaultConversion: "floz"
-    ,ml: 1
+import {curry} from '../../helpers/helpers'
+ 
+const convertVolume = {
+    ml: 1
     ,tsp: 0.202884
     ,tbsp: 0.067628
     ,floz: 0.033814
     ,cup: 0.00416667
     ,pint: 0.00211338
     ,qt: 0.00105669
-    ,gal: 0.000264172
+    ,gal: 0.0002641725
+    ,toMl(amount){ return curry(this.convert,this,"ml",this.abbr)(amount) }
+    ,toTsp(amount){ return curry(this.convert,this,"tsp",this.abbr)(amount) }
+    ,toTbsp(amount){ return curry(this.convert,this,"tbsp",this.abbr)(amount) }
+    ,toFloz(amount){ return curry(this.convert,this,"floz",this.abbr)(amount) }
+    ,toCup(amount){ return curry(this.convert,this,"cup",this.abbr)(amount) }
+    ,toPint(amount){ return curry(this.convert,this,"pint",this.abbr)(amount) }
+    ,toQt(amount){ return curry(this.convert,this,"qt",this.abbr)(amount) }
+    ,toGal(amount){ return curry(this.convert,this,"gal",this.abbr)(amount) }
+    /**
+    * converts one unit to another
+    * @param {string: unit converting to} to 
+    * @param {string: unit converting from} from 
+    * @param {number: amount to convert} amt 
+    */
+    ,convert(to, from, amt=1){
+        console.log("converting",amt,from,"to",to,":",amt * this[to] / this[from])
+        return amt * this[to] / this[from]
+    }
 }
 
-function convert({from, to, amt}){
-    return amt * ml[to] / ml[from]
+const makeVolumeObject = curry(makeConversionObject,null,convertVolume)
+const ml = makeVolumeObject("Milliliter", "ml")
+const tsp = makeVolumeObject("Teaspoon", "tsp")
+const tbsp = makeVolumeObject("Tablespoon", "tbsp")
+const floz = makeVolumeObject("Fluid Ounce", "floz")
+const cup = makeVolumeObject("Cup", "cup")
+const pint = makeVolumeObject("Pint", "pint")
+const quart = makeVolumeObject("Quart", "qt")
+const gallon = makeVolumeObject("Gallon", "gal")
+
+const convert = {
+    ml, tsp, tbsp, floz, cup, pint, quart, gallon
 }
 
-
-console.log("measures")
-    
-function outside(){
-    console.log(this)
-    let inner = ()=>console.log("inner",this)
-    inner()
+/**
+ * Creates a conversion object that can convert itself to other units
+ * @param {Object} prototype 
+ * @param {string} name 
+ * @param {string} abbr 
+ */
+function makeConversionObject(prototype,name,abbr){
+    let conversionObject = Object.create(prototype)
+    conversionObject.name = name
+    conversionObject.abbr = abbr
+    return conversionObject
 }
 
-const fat = ()=>console.log(this)
+export default convert
 
-const test = {
-    abc: outside
-    ,fat
-}
-
-
-const cup = {
-    name: "Cup"
-    ,namePlural: "Cups"
-    ,abbr: "cup"
-    ,abbrPrint: "C"
-    ,defaultConversion: "floz"
-    ,ml: 1 / ml[this]
-    ,tsp: ml.tsp / ml[this]
-    ,tbsp: 16.2307
-    ,floz: 8.11537
-    ,pint: 0.50721
-    ,qt: 0.253605
-    ,gal: 0.0634013
-}
-
-
-
-
-export const tsp = {
-    name: "Teaspoon"
-    ,namePlural: "Teaspoons"
-    ,abbr: "tsp"
-    ,abbrPrint: "tsp"
-    ,defaultConversion: "ml"
-    ,ml: 1 / ml[this]
-    ,tbsp: 1/3
-    ,floz: 1/6
-    ,cup: 1 / cup.tsp
-    ,pint: ml.pint / ml[this]
-    ,qt: ml.qt / ml[this]
-    ,gal: ml.gal / ml[this]
-}
-
-const tbsp = {
-    name: "Tablespoon"
-    ,namePlural: "Tablespoons"
-    ,abbr: "tbsp"
-    ,abbrPrint: "Tbsp"
-    ,defaultConversion: "ml"
-    ,tsp: 3
-    ,ml: 1/ml.tbsp
-    ,floz: 1/2
-    ,cup: 1/cup.tbsp
-    ,pint: ml.pint / ml[this]
-    ,qt: ml.qt / ml[this]
-    ,gal: ml.gal / ml[this]
-}
-
-const floz= {
-    name: "Fluid ounce"
-    ,namePlural: "Fluid ounces"
-    ,abbr: "floz"
-    ,abbrPrint: "fl oz"
-    ,defaultConversion: "ml"
-    ,tsp: 6
-    ,tbsp: 2
-    ,ml: 1/ml.floz
-    ,cup: 1/cup.floz
-    ,pint: ml.pint / ml[this]
-    ,qt: ml.qt / ml[this]
-    ,gal: ml.gal / ml[this]
-}
-
-const gal = {
-    name: "Gallon"
-    ,namePlural: "Gallons"
-    ,abbr: "gal"
-    ,abbrPrint: "gal"
-    ,defaultConversion: "qt"
-    ,tsp: ml.tsp
-    ,tbsp: 2
-    ,ml: 1/ml.floz
-    ,cup: 1/cup.floz
-    ,pint: 8
-    ,quart: 4
-}
-
-
-export default ml
+console.log(convert.tsp.toTsp(3).toFixed(2))
