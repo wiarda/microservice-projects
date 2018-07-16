@@ -14,7 +14,7 @@ export function instructions(req,res){
     let page = pageTemplate({
         title: "File Metadata Microservice"
         ,content: renderToString(<MetaDataService/>)
-        ,scriptsArr: ["/build/vendors~metadata~shortener.bundle.js","/build/metadata.bundle.js"]
+        ,scriptsArr: ["/build/shared.bundle.js","/build/metadata.bundle.js"]
         ,stylesArr: ["/build/metadata.css"]
     })
 

@@ -1,6 +1,8 @@
 import React from 'react'
-import {hydrate} from 'react-dom/server'
+import ReactDOM from 'react-dom'
+import CookingConverter from './components/CookingConverter'
+import styles from './converter.scss'
 
 console.log("hydrating")
 
-hydrate(<div>Component goes here</div>, document.getElementById("root"))
+ReactDOM.hydrate(<CookingConverter/>, document.getElementById("root"))

@@ -56,6 +56,7 @@ const basename = new webpack.DefinePlugin({
 const entry = {
   shortener: path.resolve(__dirname, "app/shortener/shortenerClient.js")
   ,metadata: path.resolve(__dirname, "app/metadata/metadataClient.js")
+  ,converter: path.resolve(__dirname, "app/metric-converter/converterClient.js")
 }
 
 
@@ -80,7 +81,10 @@ const devSettings = {
     }
 
     ,optimization: {
-      splitChunks: {chunks: "all"}
+      splitChunks: {
+        chunks: "all"
+        ,name: "shared"
+      }
     }
 
     ,resolve: {

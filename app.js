@@ -4,6 +4,7 @@ import urlShortenerRouter from './routes/urlShortenerRoutes'
 import urlShortLinkRouter from './routes/urlShortLinkRoutes'
 import fileMetaDataRouter from './routes/metadataRoutes'
 import sharefileRouter from './routes/sharefileRoutes'
+import cookingConverterRouter from './app/metric-converter/routes/cookingConverterRoutes'
 import mongoose from 'mongoose'
 // import dotenv from "dotenv"
 
@@ -62,6 +63,7 @@ app.use("/api/shorten", urlShortenerRouter)
 app.use("/short", urlShortLinkRouter)
 app.use("/api/metadata", fileMetaDataRouter)
 app.use("/share", sharefileRouter)
+app.use("/api/convert", cookingConverterRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

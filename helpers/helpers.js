@@ -31,3 +31,10 @@ export function resolveLink(link){
   document.execCommand('copy');                   
   el.remove()
  }
+
+ export function curry(){
+  console.log(arguments)
+  return function(){
+    console.log("input here")
+  }
+ }

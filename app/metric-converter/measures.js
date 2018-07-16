@@ -14,10 +14,12 @@ const ml = {
     ,gal: 0.000264172
 }
 
-function convert(amt, target){
-    console.log(this)
-    return amt * ml[target] / ml[this.abbr]
+function convert({from, to, amt}){
+    return amt * ml[to] / ml[from]
 }
+
+
+console.log("measures")
     
 function outside(){
     console.log(this)
@@ -96,10 +98,6 @@ const floz= {
     ,gal: ml.gal / ml[this]
 }
 
-const pint
-
-const qt
-
 const gal = {
     name: "Gallon"
     ,namePlural: "Gallons"
@@ -113,3 +111,6 @@ const gal = {
     ,pint: 8
     ,quart: 4
 }
+
+
+export default ml
