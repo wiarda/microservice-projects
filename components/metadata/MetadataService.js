@@ -1,6 +1,6 @@
 import React from 'react'
 import GridLayout from '../GridLayout'
-import UploadForm from '../UploadForm'
+import UploadForm from '../metadata/UploadForm'
 import ServerResponse from '../ServerResponse'
 import UploadedFileFeedback from './UploadedFileFeedback';
 import { FILE_SIZE_LIMIT } from '../../app/metadata/settings';

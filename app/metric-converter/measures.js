@@ -57,5 +57,3 @@ function makeConversionObject(prototype,name,abbr){
 }
 
 export default convert
-
-console.log(convert.tsp.toTsp(3).toFixed(2))

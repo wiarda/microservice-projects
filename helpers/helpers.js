@@ -34,8 +34,8 @@ export function resolveLink(link){
 
  /**
  * Curries a function. 
- * First parameter is a function
- * Second parameter is the this value to pass to the curried function
+ * First argument is a function
+ * Second argument is the this value to pass to the curried function
  */
 export function curry(){
   let [fn,context,...defaults] = arguments

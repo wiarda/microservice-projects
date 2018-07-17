@@ -1,6 +1,6 @@
 import React from 'react'
 import GridLayout from '../GridLayout'
-import Form from '../Form'
+import Form from '../shortener/Form'
 import ServerResponse from '../ServerResponse'
 import {isValidUrl} from '../../helpers/helpers'
 
