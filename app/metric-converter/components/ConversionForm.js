@@ -6,7 +6,7 @@ export default function ConversionForm(props){
         <form
             action="/request" 
             className="mx-auto w-75"
-            style={{minWidth:"450px"}}
+            style={{minWidth:props.minWidth}}
             method="get"
             onSubmit={props.submitHandler}
         >

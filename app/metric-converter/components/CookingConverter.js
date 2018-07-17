@@ -1,10 +1,14 @@
 import React from 'react'
 import GridLayout from '../../../components/GridLayout'
 import ConversionForm from './ConversionForm'
-import ml from '../measures'
+import ServerResponse from '../../../components/ServerResponse'
+import Loading from '../../../components/Loading'
+import { isValidExpression } from '../../../helpers/validation'
+import volume from '../measures'
 import { timingSafeEqual } from 'crypto';
 
 const FORM_NAME="conversion-form"
+const BODY_MIN_WIDTH="450px"
 
 const options = [
     ["millileters","ml"]
@@ -40,6 +44,7 @@ const defaultState = {
     ,fromValidity: ""
     ,to: defaultValue.to
     ,toValidity: ""
+    ,apiResponse: {type:"loading"}
 }
 
 export default class CookingConverter extends React.Component{
@@ -119,27 +124,20 @@ export default class CookingConverter extends React.Component{
                 optionsTo={optionsTo}
                 to={this.state.to}
                 toValidity={this.state.toValidity}
+                minWidth={BODY_MIN_WIDTH}
+            />
+            <ServerResponse
+                apiResponse={this.state.apiResponse}
+                parser={parseConversion}
             />
             </GridLayout>
         )
     }
 }
 
-/**
- * Checks if an expression is valid
- * (accepts decimals and fractions, but not operators)
- * @param {string} expression 
- */
-function isValidExpression(expression){
-    //check for invalid characters
-    let re = /^[\d\.\/\+\-\*\ ]+$/
-    if (!re.test(expression)) return false
-    
-    // try to evaluate expression
-    console.log("evaluating")
-    let ans
-    try {ans = eval(expression)}
-    catch(err){ ans=false }
-    console.log(ans)
-    return ans
+function parseConversion(response){
+    switch (response.type){
+        case "loading":
+            return <Loading minWidth={BODY_MIN_WIDTH} spinner={true}/>
+    }
 }

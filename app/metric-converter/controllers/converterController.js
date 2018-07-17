@@ -8,7 +8,7 @@ export function converterInstructions(req,res){
         title: "Cooking Measurements Converter"
         ,content: renderToString(<CookingConverter/>)
         ,scriptsArr:["/build/shared.bundle.js","/build/converter.bundle.js"]
-        ,stylesArr:["/build/converter.css"]
+        ,stylesArr:["/build/shared.css","/build/converter.css"]
     })
 
     res.send(page)
