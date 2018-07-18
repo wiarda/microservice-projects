@@ -11,7 +11,7 @@ const FORM_NAME="conversion-form"
 const BODY_MIN_WIDTH="450px"
 
 const options = [
-    ["millileters","ml"]
+    ["milliliters","ml"]
     ,["teaspoons","tsp"]
     ,["tablespoons","tbsp"]
     ,["fluid ounces","floz"]
@@ -44,7 +44,7 @@ const defaultState = {
     ,fromValidity: ""
     ,to: defaultValue.to
     ,toValidity: ""
-    ,apiResponse: {type:"loading"}
+    ,apiResponse: {type:""}
 }
 
 export default class CookingConverter extends React.Component{
@@ -80,29 +80,35 @@ export default class CookingConverter extends React.Component{
     submitHandler(e){
         e.preventDefault()
         let {amount,from,to} = this.state
-        console.log(amount,from,to)
+        // console.log(amount,from,to)
         let amountValidity, fromValidity, toValidity
         amountValidity = fromValidity = toValidity = "is-valid"
         //validate form
-        if (!isValidExpression(amount)) amountValidity="is-invalid"
+        amount = isValidExpression(amount)
+        if (!amount) amountValidity="is-invalid"
         if (from === defaultValue.from) fromValidity="is-invalid"
         if (to === defaultValue.to) toValidity="is-invalid"
 
-        if (amountValidity == "is-invalid" || fromValidity == "is-invalid" || toValidity == "is-invalid"){
+        if (amountValidity == "is-invalid" || 
+            fromValidity == "is-invalid" || 
+            toValidity == "is-invalid"){
             // one or more fields failed client-side validation
             this.setState({amountValidity, fromValidity, toValidity})
         } 
-        else {
-            // client-side validation passed: prepare form
-            let form = new FormData()
-            form.amount = isValidExpression(amount)
-            form.from = from
-            form.to = to
-
+        else {           
+            //submit api request
+            let serverResponse = fetch(`/api/convert/request?amount=${amount}&from=${from}&to=${to}`,{
+                method: "GET"
+            })
             //mark form as valid
-            this.setState({amountValidity,fromValidity,toValidity})
+            this.setState({amountValidity,fromValidity,toValidity,apiResponse:{type:"loading"}})
+            console.log("sending api request")
+            serverResponse.then(body=>body.json())
+            .then(apiResponse=>{
+                console.log("api response received:", apiResponse)
+                this.setState({apiResponse})
+            })
 
-            //submit form
         }
     }
 
@@ -139,5 +145,7 @@ function parseConversion(response){
     switch (response.type){
         case "loading":
             return <Loading minWidth={BODY_MIN_WIDTH} spinner={true}/>
+        default:
+            return null
     }
 }
