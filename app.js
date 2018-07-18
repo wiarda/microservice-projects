@@ -6,6 +6,7 @@ import fileMetaDataRouter from './routes/metadataRoutes'
 import sharefileRouter from './routes/sharefileRoutes'
 import cookingConverterRouter from './app/metric-converter/routes/cookingConverterRoutes'
 import mongoose from 'mongoose'
+import helmet from 'helmet'
 // import dotenv from "dotenv"
 
 // load environment variables
@@ -39,6 +40,7 @@ mongoose.Promise = global.Promise
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+app.use(helmet())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
