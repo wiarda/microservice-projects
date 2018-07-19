@@ -1,7 +1,7 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import pageTemplate from '../components/pageTemplate'
-import TimestampInstructions from '../components/TimestampInstructions'
+import TimestampInstructions from '../app/timestamp/components/TimestampInstructions'
 
 export const timestampInstructions = function (req,res){
     let component = renderToString(<TimestampInstructions/>)

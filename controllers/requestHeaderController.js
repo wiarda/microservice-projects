@@ -1,7 +1,7 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import pageTemplate from '../components/pageTemplate'
-import RequestHeaderInstructions from '../components/RequestHeaderInstructions'
+import RequestHeaderInstructions from '../app/requestHeader/components/RequestHeaderInstructions'
 
 export function instructionsPage(req,res){
     let component = renderToString(<RequestHeaderInstructions output={parseHeader(req)}/>)
