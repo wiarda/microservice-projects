@@ -1,0 +1,85 @@
+$transitionTime: 0.5s;
+
+.api-instructions__block{
+    position:relative;
+    width: 100%;
+    height: 100%;
+}
+
+.api-instructions__container {
+    position: absolute;
+    top: 0px;
+    width:100%;
+    height:100%;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    background-color: $infoDark;    
+    overflow: hidden;    
+    transition: all .5s ease;
+}
+
+.api-instructions__container[data-state="collapse"] {
+    max-height:0;
+    max-width:0;
+}
+
+.api-instructions__container[data-state="expand"] {
+    max-height:100%;
+    max-width:100%;
+}
+
+.api-instructions__text {
+    color: white;
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height .5s ease;
+}
+
+.api-instructions__text[data-state="collapse"] {
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+}
+
+.api-instructions__text[data-state="expand"] {
+    visibility: visible;
+    opacity: 1;
+    max-height:100%;
+}
+
+.api-instructions__button{
+    pointer-events: all;
+    font-size:1.25rem;
+    background-color: $info;
+    color: #fff;
+    padding: 0px 0px 5px 8px;
+    border-color: #10707f;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: $transitionTime ease, color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    &:hover{
+        background-color: $infoDark;
+        // border-color: #117a8b;
+    }
+    &:focus{
+        outline: none;
+        outline: 0px none -webkit-focus-ring-color;
+    }
+}
+
+.api-instructions__button[data-state="expand"] {
+    background-color: $infoDark;
+}
+
+.api-instructions__icon{
+    transition: transform .5s ease;
+}
+
+.api-instructions__icon[data-state="expand"]{
+    transform: rotate(180deg)
+}
+
+.api-instructions__button-row{
+    pointer-events: none;
+}

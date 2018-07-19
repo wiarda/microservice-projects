@@ -6,6 +6,7 @@ import Loading from '../../../components/Loading'
 import { isValidExpression } from '../../../helpers/validation'
 import volume from '../measures'
 import { timingSafeEqual } from 'crypto';
+import ApiInstructions from '../../../components/ApiInstructions';
 
 const FORM_NAME="conversion-form"
 const BODY_MIN_WIDTH="450px"
@@ -136,6 +137,9 @@ export default class CookingConverter extends React.Component{
                 apiResponse={this.state.apiResponse}
                 parser={parseConversion}
             />
+
+            <ApiInstructions/>
+            
             </GridLayout>
         )
     }

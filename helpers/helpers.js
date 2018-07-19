@@ -45,3 +45,9 @@ export function curry(){
       return fn.apply(context,[...defaults,...args])
   }
 }
+
+export function capitalize(string){
+  return string.replace(/^([a-z])/,function(match,p1){
+      return p1.toUpperCase()
+  })
+}

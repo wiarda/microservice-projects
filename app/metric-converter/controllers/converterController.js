@@ -4,13 +4,14 @@ import { renderToString } from 'react-dom/server'
 import pageTemplate from '../../../components/pageTemplate'
 import validator from 'validator'
 import convert from '../measures'
+import { capitalize } from '../../../helpers/helpers'
 
 export function converterInstructions(req,res){
     let page = pageTemplate({
         title: "Cooking Measurements Converter"
         ,content: renderToString(<CookingConverter/>)
         ,scriptsArr:["/build/shared.bundle.js","/build/converter.bundle.js"]
-        ,stylesArr:["/build/shared.css","/build/converter.css"]
+        ,stylesArr:["https://fonts.googleapis.com/icon?family=Material+Icons","/build/shared.css","/build/converter.css"]
     })
 
     res.send(page)
@@ -69,8 +70,4 @@ export function conversionRequest(req,res){
 
 }
 
-function capitalize(string){
-    return string.replace(/^([a-z])/,function(match,p1){
-        return p1.toUpperCase()
-    })
-}
+

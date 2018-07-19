@@ -16,3 +16,15 @@ export function isValidExpression(expression){
     console.log(ans)
     return ans
 }
+
+/**
+ * checks if the passed parameter is a number 
+ * @param {*} string 
+ */
+export function isNumber(string){
+    let re = /^[\d\.]+$/
+    if (re.test(string)) {
+        // no invalid characters
+        return 
+    }
+}
