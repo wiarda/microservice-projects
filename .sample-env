@@ -1,3 +1,4 @@
 DB_SHORTENER=mongo_db_link (for link shortening service)
 DB_METADATA=mongo_db_link (for fileshare service)
 DB_EXERCISE=mongo_db_link (for exercise tracker service)
+DB_ISSUETRACKER=mongo_db_link (for issue tracker service)
