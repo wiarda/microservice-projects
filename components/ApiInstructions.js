@@ -7,19 +7,10 @@ export default class ApiInstructions extends React.Component{
         this.state = {expanded:"collapse",expandedHeight:null}
     }
     
-    componentDidMount(){
-        this.deriveHeight()
-    }
-
     toggleInstructions(){
         console.log("toggling")
         let expanded = this.state.expanded === "expand" ? "collapse" : "expand"
         this.setState({expanded})
-    }
-
-    deriveHeight(){
-        console.log("let's check the height of the bounding size of the box", 
-        document.getElementById("api-instructions").getBoundingClientRect())
     }
 
     render(){
@@ -28,17 +19,17 @@ export default class ApiInstructions extends React.Component{
         
         return (
             <div 
-                className="api-instructions__block mx-3" 
+                className="api-instructions__block" 
                 id="instructions-block"
             >
                 
                 <div 
-                    className="api-instructions__container mx-3" 
+                    className="api-instructions__container" 
                     data-state={this.state.expanded}
                     onClickCapture={this.toggleInstructions} 
                 />
 
-                <div className="row mx-3 position-relative api-instructions__button-row" data-state={this.state.expanded}>
+                <div className="row no-gutters position-relative api-instructions__button-row" data-state={this.state.expanded}>
 
                     <button 
                         onClick={this.toggleInstructions} 
@@ -60,23 +51,12 @@ export default class ApiInstructions extends React.Component{
                 <div 
                     id="api-instructions" 
                     data-state={this.state.expanded} 
-                    className="api-instructions__text mx-4"
+                    className="api-instructions__text mx-2"
                 >
-                    Instructions go here
-                    <br/>
-                    <br/>
-                    <br/>
-                    and
-                    they
-                    <br/>
-                    <br/>
-                    are
-                    <br/>
-                    really
-                    <br/>
-                    long
-                    <br/>
-                    !
+                    
+                    {this.props.children}
+
+                    <div className="p-1"/>
                 </div>
         
             </div>

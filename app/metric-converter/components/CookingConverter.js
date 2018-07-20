@@ -117,28 +117,74 @@ export default class CookingConverter extends React.Component{
         return(
             <GridLayout
                 title="Cooking Measurements Converter"
-            >
-            <ConversionForm
-                defaultTextHandler={this.defaultTextHandler}
-                inputHandler={this.inputHandler}
-                changeHandler={this.changeHandler}
-                submitHandler={this.submitHandler}
-                amount={this.state.amount}
-                amountValidity={this.state.amountValidity}
-                optionsFrom={optionsFrom}
-                from={this.state.from}
-                fromValidity={this.state.fromValidity}
-                optionsTo={optionsTo}
-                to={this.state.to}
-                toValidity={this.state.toValidity}
                 minWidth={BODY_MIN_WIDTH}
-            />
-            <ServerResponse
-                apiResponse={this.state.apiResponse}
-                parser={parseConversion}
-            />
+            >
+                <ConversionForm
+                    defaultTextHandler={this.defaultTextHandler}
+                    inputHandler={this.inputHandler}
+                    changeHandler={this.changeHandler}
+                    submitHandler={this.submitHandler}
+                    amount={this.state.amount}
+                    amountValidity={this.state.amountValidity}
+                    optionsFrom={optionsFrom}
+                    from={this.state.from}
+                    fromValidity={this.state.fromValidity}
+                    optionsTo={optionsTo}
+                    to={this.state.to}
+                    toValidity={this.state.toValidity}
+                    minWidth={BODY_MIN_WIDTH}
+                />
+                <ServerResponse
+                    apiResponse={this.state.apiResponse}
+                    parser={parseConversion}
+                />
 
-            <ApiInstructions/>
+                <ApiInstructions>
+                    <div>
+                        1. To access the API directly: GET /api/convert<br/>
+
+                        2. Requests must supply 3 parameters:<br/>
+                        <ul>
+                            <li>amount: The number to convert (this must be a valid number. 
+                         If you wish to enter fractions or a number expression,
+                         please use the supplied form instead.)</li>
+                            <li>from: The units to convert from.</li>
+                            <li>to: The units to conver to.</li>
+                        </ul>
+
+                        3. Here is a list of units you can convert:<br/>
+                        <ul>
+                            <li>ml (milliliters)</li>
+                            <li>tsp (teaspoons)</li>
+                            <li>tbsp (tablespoons)</li>
+                            <li>floz (fluid ounces)</li>
+                            <li>cup</li>
+                            <li>pint</li>
+                            <li>qt (quarts)</li>
+                            <li>gal (gallons)</li>
+                        </ul>  
+
+                        4. Example useage:
+                        <ul>
+                            <li>/api/convert/request?amount=1.45&from=gal&to=floz</li>
+                            <li>/api/convert/request?amount=16&from=tbsp&to=cup</li>
+                        </ul>
+
+                        5. The API will return a json object with the following format:<br/>
+                        <div className="ml-3">
+                            {`{`}<br/>
+                                <div className="ml-4">
+                                    "type":"success"<br/>
+                                    ,"amount":"1"<br/>
+                                    ,"from":"cup"<br/>
+                                    ,"to":"floz"<br/>
+                                    ,"answer":8.115353507717193<br/>
+                                    ,"result":"1 Cup is equal to 8.115353507717193 Fluid Ounces."<br/>
+                                </div>
+                            {`}`}
+                        </div>
+                    </div>            
+                </ApiInstructions>
             
             </GridLayout>
         )
