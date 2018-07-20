@@ -11,16 +11,16 @@ $transitionTime: 0.5s;
     top: 0px;
     width:100%;
     height:100%;
-    border: 1px solid transparent;
     border-radius: .25rem;
     background-color: $infoDark;    
     overflow: hidden;    
-    transition: all .5s ease;
+    transition: max-height $transitionTime ease, 
+        max-width $transitionTime ease;
 }
 
 .api-instructions__container[data-state="collapse"] {
-    max-height:0;
-    max-width:0;
+    max-height:37px; // height of button
+    max-width:182px; // width of button
 }
 
 .api-instructions__container[data-state="expand"] {
@@ -49,11 +49,13 @@ $transitionTime: 0.5s;
 }
 
 .api-instructions__button{
+    min-height:37px;
+    min-width:182px;
     pointer-events: all;
     font-size:1.25rem;
     background-color: $info;
     color: #fff;
-    padding: 0px 0px 5px 8px;
+    padding: 0px 5px 5px 8px;
     border-color: #10707f;
     border: 1px solid transparent;
     border-radius: .25rem;
