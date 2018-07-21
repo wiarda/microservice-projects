@@ -1,9 +1,10 @@
 $transitionTime: 0.5s;
 
 .api-instructions__block{
-    position:relative;
+    position: absolute;
+    top: 0px;
     width: 100%;
-    height: 100%;
+    // height: 100%;
 }
 
 .api-instructions__container {
@@ -12,10 +13,13 @@ $transitionTime: 0.5s;
     width:100%;
     height:100%;
     border-radius: .25rem;
-    background-color: $infoDark;    
+    background-color: $info;    
     overflow: hidden;    
     transition: max-height $transitionTime ease, 
         max-width $transitionTime ease;
+    &:hover{
+        background-color: $infoDark
+    }
 }
 
 .api-instructions__container[data-state="collapse"] {
@@ -33,6 +37,7 @@ $transitionTime: 0.5s;
     position: relative;
     overflow: hidden;
     pointer-events: none;
+    padding-left:3rem;
     transition: max-height .5s ease;
 }
 
@@ -51,15 +56,18 @@ $transitionTime: 0.5s;
 .api-instructions__button{
     min-height:37px;
     min-width:182px;
-    pointer-events: all;
+    pointer-events: none;
     font-size:1.25rem;
-    background-color: $info;
+    background-color: transparent;
     color: #fff;
     padding: 0px 5px 5px 8px;
     border-color: #10707f;
     border: 1px solid transparent;
     border-radius: .25rem;
-    transition: $transitionTime ease, color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    transition: $transitionTime ease,
+        color .15s ease-in-out,
+        background-color .15s ease-in-out,
+        border-color .15s ease-in-out;
     &:hover{
         background-color: $infoDark;
         // border-color: #117a8b;
@@ -71,7 +79,8 @@ $transitionTime: 0.5s;
 }
 
 .api-instructions__button[data-state="expand"] {
-    background-color: $infoDark;
+    // background-color: transparent;
+    // pointer-events: none;
 }
 
 .api-instructions__icon{

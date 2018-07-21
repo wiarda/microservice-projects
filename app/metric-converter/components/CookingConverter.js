@@ -115,29 +115,33 @@ export default class CookingConverter extends React.Component{
 
     render(){
         return(
-            <GridLayout
-                title="Cooking Measurements Converter"
-                minWidth={BODY_MIN_WIDTH}
-            >
-                <ConversionForm
-                    defaultTextHandler={this.defaultTextHandler}
-                    inputHandler={this.inputHandler}
-                    changeHandler={this.changeHandler}
-                    submitHandler={this.submitHandler}
-                    amount={this.state.amount}
-                    amountValidity={this.state.amountValidity}
-                    optionsFrom={optionsFrom}
-                    from={this.state.from}
-                    fromValidity={this.state.fromValidity}
-                    optionsTo={optionsTo}
-                    to={this.state.to}
-                    toValidity={this.state.toValidity}
+            <React.Fragment>
+
+                <GridLayout
+                    title="Cooking Measurements Converter"
                     minWidth={BODY_MIN_WIDTH}
-                />
-                <ServerResponse
-                    apiResponse={this.state.apiResponse}
-                    parser={parseConversion}
-                />
+                >
+                    <ConversionForm
+                        defaultTextHandler={this.defaultTextHandler}
+                        inputHandler={this.inputHandler}
+                        changeHandler={this.changeHandler}
+                        submitHandler={this.submitHandler}
+                        amount={this.state.amount}
+                        amountValidity={this.state.amountValidity}
+                        optionsFrom={optionsFrom}
+                        from={this.state.from}
+                        fromValidity={this.state.fromValidity}
+                        optionsTo={optionsTo}
+                        to={this.state.to}
+                        toValidity={this.state.toValidity}
+                        minWidth={BODY_MIN_WIDTH}
+                    />
+                    <ServerResponse
+                        apiResponse={this.state.apiResponse}
+                        parser={parseConversion}
+                    />
+                
+                </GridLayout>
 
                 <ApiInstructions>
                     <div>
@@ -146,8 +150,8 @@ export default class CookingConverter extends React.Component{
                         2. Requests must supply 3 parameters:<br/>
                         <ul>
                             <li>amount: The number to convert (this must be a valid number. 
-                         If you wish to enter fractions or a number expression,
-                         please use the supplied form instead.)</li>
+                        If you wish to enter fractions or a number expression,
+                        please use the supplied form instead.)</li>
                             <li>from: The units to convert from.</li>
                             <li>to: The units to conver to.</li>
                         </ul>
@@ -185,8 +189,8 @@ export default class CookingConverter extends React.Component{
                         </div>
                     </div>            
                 </ApiInstructions>
-            
-            </GridLayout>
+
+            </React.Fragment>
         )
     }
 }
