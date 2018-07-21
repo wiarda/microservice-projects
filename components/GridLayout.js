@@ -5,7 +5,6 @@ import Children from './Children'
 export default class GridLayout extends React.Component{
     constructor(props){
         super(props)
-        console.log(props.minWidth)
     }
       
     render(){

@@ -13,10 +13,7 @@ export default class ApiInstructions extends React.Component{
         this.setState({expanded})
     }
 
-    render(){
-        console.log("rendering")
-        
-        
+    render(){       
         return (
             <div 
                 className="api-instructions__block" 
