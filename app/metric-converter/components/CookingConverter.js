@@ -145,7 +145,7 @@ export default class CookingConverter extends React.Component{
 
                 <ApiInstructions>
                     <div>
-                        1. To access the API directly: GET /api/convert<br/>
+                        1. Access the API directly using GET /api/convert/request<br/>
 
                         2. Requests must supply 3 parameters:<br/>
                         <ul>

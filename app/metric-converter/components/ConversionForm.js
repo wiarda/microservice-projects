@@ -60,7 +60,7 @@ export default function ConversionForm(props){
             </div>
             <div className="form-row mt-3">
                 <button 
-                    className="btn btn-primary mx-auto" 
+                    className="btn btn-primary mx-auto form__convert-button" 
                     type="submit"
                     onClick={props.submitHandler}
                 >
