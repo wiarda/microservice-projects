@@ -199,6 +199,10 @@ function parseConversion(response){
     switch (response.type){
         case "loading":
             return <Loading minWidth={BODY_MIN_WIDTH} spinner={true}/>
+        case "success":
+            return (
+                <div>{response.result}</div>
+            )
         default:
             return null
     }
