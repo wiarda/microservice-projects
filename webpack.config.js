@@ -57,12 +57,8 @@ const entry = {
   shortener: path.resolve(__dirname, "app/shortener/shortenerClient.js")
   ,metadata: path.resolve(__dirname, "app/metadata/metadataClient.js")
   ,converter: path.resolve(__dirname, "app/metric-converter/converterClient.js")
+  ,tracker: path.resolve(__dirname, "app/issueTracker/issueTrackerClient.js")
 }
-
-
-
-
-
 
 
 

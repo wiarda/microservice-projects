@@ -5,6 +5,7 @@ import urlShortLinkRouter from './routes/urlShortLinkRoutes'
 import fileMetaDataRouter from './routes/metadataRoutes'
 import sharefileRouter from './routes/sharefileRoutes'
 import cookingConverterRouter from './app/metric-converter/routes/cookingConverterRoutes'
+import issueTrackerRouter from './app/issueTracker/routes/trackerRoutes'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
 // import dotenv from "dotenv"
@@ -66,6 +67,7 @@ app.use("/short", urlShortLinkRouter)
 app.use("/api/metadata", fileMetaDataRouter)
 app.use("/share", sharefileRouter)
 app.use("/api/convert", cookingConverterRouter)
+app.use("/api/tracker", issueTrackerRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
