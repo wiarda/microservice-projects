@@ -4,12 +4,9 @@ import ConversionForm from './ConversionForm'
 import ServerResponse from '../../../components/ServerResponse'
 import Loading from '../../../components/Loading'
 import { isValidExpression } from '../../../helpers/validation'
-<<<<<<< HEAD
-=======
 import volume from '../measures'
 import { timingSafeEqual } from 'crypto';
 import ApiInstructions from '../../../components/ApiInstructions';
->>>>>>> 5f0ee55892218c2414444e145b6c7e9be383228f
 
 const FORM_NAME="conversion-form"
 const BODY_MIN_WIDTH="450px"
