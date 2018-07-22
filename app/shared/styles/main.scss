@@ -1,5 +1,9 @@
 $pale-sky: #e4f5f6;
 $blue: #007bff;
+$info: #17a2b8;
+$infoDark: #138496;
 
-@import './loader.scss'
+@import './loader.scss';
+@import './api.scss';
+@import './shapes.scss';
 
