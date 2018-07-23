@@ -14,7 +14,7 @@ export default class TrackerLandingPage extends React.Component{
     
     render(){
         return (
-            <GridLayout title="Issue Tracker Service">
+            <GridLayout title="Todo Tracker">
                 <div>Placeholder</div> 
     
                 <ServerResponse
