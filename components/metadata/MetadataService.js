@@ -66,7 +66,7 @@ export default class MetaDataService extends React.Component{
             
             fetch("/api/metadata/upload", {
                 method: "POST"
-                ,body: form
+                ,form
             })
             .then(body=>body.json())
             .then(apiResponse=>this.setState({apiResponse}))

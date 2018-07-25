@@ -8,9 +8,11 @@ import cookingConverterRouter from './app/metric-converter/routes/cookingConvert
 import issueTrackerRouter from './app/issueTracker/routes/trackerRoutes'
 import mongoose from 'mongoose'
 import helmet from 'helmet'
+// import passport from 'passport'
+// import session from 'express-session'
 // import dotenv from "dotenv"
 
-// load environment variables
+// // load environment variables
 // dotenv.config()
 
 var createError = require('http-errors');
@@ -56,6 +58,7 @@ app.use(sassMiddleware({
 // serve client-side files
 app.use("/public",express.static(path.join(__dirname, 'public')));
 app.use("/build",express.static(path.join(__dirname, 'build')));
+
 
 //set up routes
 app.use('/', indexRouter);
