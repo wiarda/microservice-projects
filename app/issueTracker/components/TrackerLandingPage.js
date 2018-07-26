@@ -2,6 +2,7 @@ import React from 'react'
 import GridLayout from '../../../components/GridLayout'
 import ServerResponse from '../../../components/ServerResponse'
 import SignupForm from './SignupForm';
+import LoginForm from './LoginForm'
 
 const defaultState = {
     apiResponse:""
@@ -24,6 +25,8 @@ export default class TrackerLandingPage extends React.Component{
                 />
                
                <SignupForm/>
+
+               <LoginForm/>
 
             </GridLayout>
         )

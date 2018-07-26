@@ -25,10 +25,12 @@ router.use(passport.session());
 router.use(flash())
 
 passport.serializeUser(function(user, done){
-  done(null, user.id);
+    console.log("serialized!")
+    done(null, user.id);
 });
 
 passport.deserializeUser(function(username,done){
+    console.log("deserialized!")
     Users.findById(id,function(err,user){
         done(err, user);
     });
@@ -39,10 +41,32 @@ passport.deserializeUser(function(username,done){
 router.get("/",landingPage);
 
 router.post("/login"
-    ,passport.authenticate("local")
+    ,upload.array()
+    // ,passport.authenticate("local", {failureRedirect: "error"})
+    ,function(req,res,next){
+        passport.authenticate("local", function(err,user,info){
+            if (err) return res.json({type:"error", message:JSON.stringify(err)})
+            if (info) return res.json({type:"error", message:info.message})
+            if (user) {
+                req.logIn(user, function(err){
+                    if(err) return res.json({type:"error", message:JSON.stringify(err)})
+                    next()
+                })
+            }
+
+        })(req,res,next)
+    }
     ,login
 );
 
 router.post("/signup", upload.array(), signup)
+
+router.get("/:user"
+    ,function(req,res){
+        console.log(req.session)
+        console.log(req.user)
+
+    }
+)
 
 export default router;

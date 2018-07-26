@@ -1,6 +1,7 @@
 import Users from '../models/Users';
 
 export function signup(req,res){
+    console.log(req.user)
     let {username, password, email} = req.body;
     console.log("signup request", req.body)
 
