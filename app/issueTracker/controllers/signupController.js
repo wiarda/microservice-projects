@@ -14,7 +14,7 @@ export function signup(req,res){
     let newAccount = user.save(function(err,user){
         if (err) {
             let message = handleMongoErr(err);
-            console.log("login error", err.message)
+            console.log("signup error", err.message)
             res.json({type: "signupErr", message})
         }
         else {

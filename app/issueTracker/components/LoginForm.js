@@ -32,12 +32,13 @@ function login(e){
     fetch("/api/tracker/login",{
         method: "POST"
         ,body: form
+        ,credentials:"include"
     }).then(body=>body.json())
     .then(response=>{
         console.log(response)
         if (response.type==="loggedin") {
             console.log("link:",`tracker/${response.redirect}`)
-            window.location.href=`/api/tracker/${response.redirect}`
+            // window.location.href=`/api/tracker/${response.redirect}`
         }
     })
 }

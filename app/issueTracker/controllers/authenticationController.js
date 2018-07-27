@@ -38,7 +38,7 @@ export function login(req,res){
     }
     // res.json(userInfo)
     req.session.save(()=>{
-        console.log("session saved")
+        console.log("session saved", req.session)
         res.json({type:"loggedin",redirect: req.user.username})
     })
     //add error handling
@@ -49,5 +49,6 @@ export function isLoggedIn(req,res,next){
     console.log("Checking authentication status")
     console.log("user", req.user)
     console.log("session", req.session)
+    console.log("cookie", req.cookie)
     next()
 }

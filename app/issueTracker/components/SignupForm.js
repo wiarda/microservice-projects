@@ -32,6 +32,7 @@ function submitForm(e){
     fetch("/api/tracker/signup",{
         method: "POST"
         ,body: form
+        ,credentials:"include"
     }).then(body=>body.json())
     .then(response=>console.log(response))
 
