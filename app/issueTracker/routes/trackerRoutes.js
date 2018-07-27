@@ -29,20 +29,7 @@ var corsOption = {
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    exposedHeaders: ['Cookie']
   };
-
-// router.use(function(req, res, next) {
-//     res.header('Access-Control-Allow-Credentials', true);
-//     res.header('Access-Control-Allow-Origin', req.headers.origin);
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//     res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-//     if ('OPTIONS' == req.method) {
-//          res.send(200);
-//      } else {
-//          next();
-//      }
-//     });
 
 
 // session and user authentication middleware
@@ -54,8 +41,9 @@ router.use(session({
     ,cookie: {
         httpOnly: false
         ,secure: false
-        ,maxAge:36000000
-        ,domain: "http://localhost:8000/"
+        ,path: "/api/tracker"
+        // ,maxAge:36000000
+        // ,domain: "http://localhost:8000/"
     }
 }));
 router.use(passport.initialize());
@@ -63,24 +51,21 @@ router.use(passport.session());
 
 passport.serializeUser(function(user, done){
     console.log("serialized!")
-    done(null, user.id);
+    done(null, user._id);
 });
 
-passport.deserializeUser(function(username,done){
+passport.deserializeUser(function(id,done){
     console.log("deserialized!")
     Users.findById(id,function(err,user){
         done(err, user);
     });
 });
 
-
-
 router.get("/",isLoggedIn, landingPage);
 
 router.post("/login"
     ,upload.array()
     ,isLoggedIn
-    // ,passport.authenticate("local", {failureRedirect: "error"})
     ,function(req,res,next){
         passport.authenticate("local", function(err,user,info){
             if (err) return res.json({type:"error", message:JSON.stringify(err)})
