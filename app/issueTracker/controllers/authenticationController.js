@@ -36,9 +36,18 @@ export function login(req,res){
         ,user: req.user
         ,tasks:"tasks to add to redux"
     }
-    res.json(userInfo)
-
+    // res.json(userInfo)
+    req.session.save(()=>{
+        console.log("session saved")
+        res.json({type:"loggedin",redirect: req.user.username})
+    })
     //add error handling
 }
 
 
+export function isLoggedIn(req,res,next){
+    console.log("Checking authentication status")
+    console.log("user", req.user)
+    console.log("session", req.session)
+    next()
+}

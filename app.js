@@ -10,10 +10,10 @@ import mongoose from 'mongoose'
 import helmet from 'helmet'
 // import passport from 'passport'
 // import session from 'express-session'
-// import dotenv from "dotenv"
+import dotenv from "dotenv"
 
 // // load environment variables
-// dotenv.config()
+dotenv.config()
 
 var createError = require('http-errors');
 var express = require('express');
@@ -47,7 +47,7 @@ app.use(helmet())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),

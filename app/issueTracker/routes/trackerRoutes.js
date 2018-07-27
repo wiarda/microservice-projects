@@ -5,7 +5,7 @@ import flash from 'flash'
 import dotenv from "dotenv"
 import multer from 'multer'
 
-import { localStrategy, login } from '../controllers/authenticationController';
+import { localStrategy, login, isLoggedIn } from '../controllers/authenticationController';
 import { landingPage } from '../controllers/trackerController';
 import { signup } from '../controllers/signupController'
 import Users from '../models/Users';
@@ -38,7 +38,7 @@ passport.deserializeUser(function(username,done){
 
 
 
-router.get("/",landingPage);
+router.get("/",isLoggedIn, landingPage);
 
 router.post("/login"
     ,upload.array()
@@ -61,12 +61,9 @@ router.post("/login"
 
 router.post("/signup", upload.array(), signup)
 
-router.get("/:user"
-    ,function(req,res){
-        console.log(req.session)
-        console.log(req.user)
-
-    }
-)
+router.get("/:account",isLoggedIn,function(req,res){
+    console.log(req.params)
+    res.send(req.user)
+})
 
 export default router;

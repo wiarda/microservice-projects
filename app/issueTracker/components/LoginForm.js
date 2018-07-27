@@ -33,5 +33,11 @@ function login(e){
         method: "POST"
         ,body: form
     }).then(body=>body.json())
-    .then(response=>console.log(response))
+    .then(response=>{
+        console.log(response)
+        if (response.type==="loggedin") {
+            console.log("link:",`tracker/${response.redirect}`)
+            window.location.href=`/api/tracker/${response.redirect}`
+        }
+    })
 }
