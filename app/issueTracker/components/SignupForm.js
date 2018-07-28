@@ -21,9 +21,15 @@ export default function SignupForm(props){
             <div>
                 <input type="submit" value="Sign Up"/>
             </div>
+
+            <div>
+                <a href="" onClick={props.toggleForm}>Sign in</a>
+            </div>
         </form>
     )
 }
+
+
 
 function submitForm(e){
     e.preventDefault()
