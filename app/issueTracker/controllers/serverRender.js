@@ -3,15 +3,14 @@ import { renderToString} from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { createStore} from 'redux';
 import rootReducer from '../reducers/rootReducer'
-import TrackerLandingPage from '../components/TrackerLandingPage';
 import pageTemplate from '../../../components/pageTemplate';
-
+import TaskListApp from '../containers/TaskListApp'
 
 let store = createStore(rootReducer)
 
 let content = renderToString(
     <Provider store={store}>
-        <TrackerLandingPage/>
+        <TaskListApp/>
     </Provider>
 )
 
