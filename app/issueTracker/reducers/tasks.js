@@ -1,4 +1,6 @@
-const defaultState = {}
+const defaultState = {
+    tasks: {}
+}
 
 const tasks = (state=defaultState, action) => {
     switch (action.type) {
