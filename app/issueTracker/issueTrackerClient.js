@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import TrackerLandingPage from './components/TrackerLandingPage'
+import TaskListApp from './containers/TaskListApp'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers/rootReducer'
@@ -16,7 +16,7 @@ const store = createStore(rootReducer, initialState)
 
 ReactDOM.hydrate( 
     <Provider store={store}>
-        <TrackerLandingPage/>
+        <TaskListApp/>
     </Provider>, 
     document.getElementById("root")
 );
