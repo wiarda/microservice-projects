@@ -4,7 +4,8 @@ import { logIn, logOut } from '../actions/actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isLoggedIn: state.tasks.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn
+        ,username: state.user.username
     }
 }
 
