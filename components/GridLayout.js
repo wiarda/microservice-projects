@@ -8,6 +8,14 @@ export default class GridLayout extends React.Component{
     }
       
     render(){
+
+        let title = this.props.title ? (
+            <div className="row mt-5">
+                <Title text={this.props.title}/>
+            </div>
+            ) :
+            null
+
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -15,9 +23,7 @@ export default class GridLayout extends React.Component{
                     
                     <div className="col-12 col-sm-10 col-lg-8">
                         
-                        <div className="row mt-5">
-                            <Title text={this.props.title}/>
-                        </div>
+                        {title}
                         
                         <div className="row py-3"></div>
                         
