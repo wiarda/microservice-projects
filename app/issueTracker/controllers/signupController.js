@@ -33,3 +33,8 @@ function handleMongoErr(err){
             return "There was an error signing up, please try again."
     }
 }
+
+export async function isUsernameUnique(username){
+    let document = await Users.findOne({username})
+    console.log(document)
+}

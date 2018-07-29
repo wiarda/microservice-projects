@@ -2,25 +2,38 @@ import React from 'react'
 
 export default function LoginForm(props){
     return (
-        <div className="container-fluid">
-        <form action="/login" method="post" onSubmit={login}>
-            <input 
-                name="username" 
-                type="text" 
-                value={props.usernameValue} 
-                className="form-control"
-            />
-            <input 
-                name="password"
-                type="password" 
-                value={props.passwordValue} 
-                className="form-control"
-            />
-            <button className="btn btn-primary">Log in</button>
-        </form>
-        
-        
-        </div>
+        <React.Fragment>
+
+            <div className="container-fluid">
+            <form action="/login" method="post" onSubmit={login}>
+                <input 
+                    name="username" 
+                    type="text" 
+                    value={props.usernameValue} 
+                    className="form-control"
+                />
+                <input 
+                    name="password"
+                    type="password" 
+                    value={props.passwordValue} 
+                    className="form-control"
+                />
+                <button className="btn btn-primary">Log in</button>
+            </form>
+            
+            <div>
+                <a href="" onClick={function(e){
+                        e.preventDefault();
+                        props.toggleForm("signup");
+                    }}
+                >
+                    Sign up
+                </a>
+            </div>
+            
+            </div>
+
+        </React.Fragment>
     )
 }
 

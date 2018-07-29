@@ -40,6 +40,7 @@ export default class TrackerLandingPage extends React.Component{
                     <LoginSwitch
                         isLoggedIn={this.props.isLoggedIn}
                         form={this.state.form}
+                        toggleForm={this.toggleForm}
                     />
         
                     <ServerResponse
