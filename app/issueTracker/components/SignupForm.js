@@ -1,12 +1,16 @@
 import React from 'react'
 import InputField from './InputField'
-import { isEmail, isAlphanumeric } from 'validator'
+import { isAlphanumeric } from 'validator'
+import { validate } from '../helpers/validationHelpers';
 
 const DEFAULT_STATE = {
     usernameFeedback: null
     , passwordFeedback: null
+    , passwordValidity: null
     , emailFeedback: null
+    , emailValidity: null
     , usernameValue: null
+    , usernameValidity: null
     , isUnique: null
 };
 
@@ -18,6 +22,8 @@ export default class SignupForm extends React.Component {
         this.validateAndSubmit = this.validateAndSubmit.bind(this)
         this.uniqueCheckHandler = this.uniqueCheckHandler.bind(this)
         this.isUsernameUnique = this.isUsernameUnique.bind(this)
+        this.clearFeedback = this.clearFeedback.bind(this)
+        this.validateInput = this.validateInput.bind(this)
     }
 
     switchToSignin(e) {
@@ -26,59 +32,40 @@ export default class SignupForm extends React.Component {
     }
 
     validateAndSubmit(e) {
-        console.log("validating")
         e.preventDefault();
-        let invalid, usernameFeedback, passwordFeedback, emailFeedback;
 
-        // username validation
-        let username = e.target.username.value;
-        if (username.length === 0) {
-            invalid = true
-            usernameFeedback = "Please enter a username"
-        }
-        else if (!isAlphanumeric(username)) {
-            invalid = true
-            usernameFeedback = "Usernames may only contain letters and numbers"
-        }
+        let [usernameFeedback, usernameValidity] = validate.username(e.target.username.value,this.state.isUnique);
+        let [passwordFeedback, passwordValidity] = validate.password(e.target.password.value);
+        let [emailFeedback, emailValidity] = validate.email(e.target.email.value);
 
-        // password validation
-        let password = e.target.password.value
-        if (password.length === 0) {
-            invalid = true
-            passwordFeedback = "Please enter a password"
+        // provide validation feedback
+        if (usernameFeedback || passwordFeedback || emailFeedback) {
+            this.setState({ usernameFeedback, usernameValidity, emailFeedback, emailValidity, passwordFeedback, passwordValidity })
         }
-        else if (!isAlphanumeric(password)) {
-            invalid = true
-            passwordFeedback = "Passwords may only contain letters and numbers"
-        }
-
-        // email validation
-        let email = e.target.email.value
-        if (email.length === 0) {
-            invalid = true
-            emailFeedback = "Please enter your email"
-        }
-        else if (!isEmail(email)) {
-            invalid = true
-            emailFeedback = "Please enter a valid email"
-        }
-
-        // give validation feedback
-        if (invalid) {
-            console.log("updating validation state", usernameFeedback, emailFeedback, passwordFeedback)
-            this.setState({ usernameFeedback, emailFeedback, passwordFeedback })
-        }
-
-        // submit form
+        // otherwise, submit form
         else {
             console.log("submitting sign up form")
             let form = new FormData(e.target)
         }
+    }
 
+    validateInput(value,field) {
+        let [feedback, validity] = validate[field](value, this.state.isUnique)
+        
+        this.setState({[`${field}Feedback`]:feedback, [`${field}Validity`]:validity})
+    }
+
+    clearFeedback(feedback, validity) {
+        this.setState({ [feedback]: null, [validity]:null })
     }
 
     uniqueCheckHandler(e) {
         let username = e.target.value;
+
+        // skip database check if username is invalid
+        if (username.length && !isAlphanumeric(username)) {
+            return this.setState({ usernameValue: username, isUnique: "duplicate" })
+        }
 
         // prevent excessive checks while user is inputting username
         clearTimeout(this.uniqueCheck);
@@ -126,8 +113,11 @@ export default class SignupForm extends React.Component {
                     displayName="Username"
                     inputType="text"
                     feedback={this.state.usernameFeedback}
+                    validity={this.state.usernameValidity}
                     autoComplete="new-password"
                     onChange={this.uniqueCheckHandler}
+                    onBlur={this.validateInput}
+                    onClick={() => this.clearFeedback("usernameFeedback","usernameValidity")}
                 >
                     <div
                         className="input--success-indicator"
@@ -142,7 +132,10 @@ export default class SignupForm extends React.Component {
                     displayName="Password"
                     inputType="password"
                     feedback={this.state.passwordFeedback}
+                    validity={this.state.passwordValidity}
                     autoComplete="new-password"
+                    onClick={() => this.clearFeedback("passwordFeedback","passwordValidity")}
+                    onBlur={this.validateInput}
                 />
 
                 <InputField
@@ -150,7 +143,10 @@ export default class SignupForm extends React.Component {
                     displayName="Email"
                     inputType="email"
                     feedback={this.state.emailFeedback}
+                    validity={this.state.emailValidity}
                     autoComplete="email"
+                    onClick={() => this.clearFeedback("emailFeedback","emailValidity")}
+                    onBlur={this.validateInput}
                 />
 
                 <div className="form-group">
@@ -184,8 +180,6 @@ function displaySuccessIndicator(isUnique) {
             return null
     }
 }
-
-
 
 function submitForm(e) {
     e.preventDefault()
