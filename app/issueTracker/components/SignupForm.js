@@ -17,17 +17,17 @@ export default class SignupForm extends React.Component {
     }
 
     switchToSignin(e) {
-        e.preventDefault()
-        this.props.toggleForm("signin")
+        e.preventDefault();
+        this.props.toggleForm("signin");
     }
 
     validateAndSubmit(e) {
         console.log("validating")
-        e.preventDefault()
-        let invalid, usernameFeedback, passwordFeedback, emailFeedback
+        e.preventDefault();
+        let invalid, usernameFeedback, passwordFeedback, emailFeedback;
 
         // username validation
-        let username = e.target.username.value
+        let username = e.target.username.value;
         if (username.length === 0) {
             invalid = true
             usernameFeedback = "Please enter a username"
@@ -67,7 +67,7 @@ export default class SignupForm extends React.Component {
 
         // submit form
         else {
-            console.log("submitting form")
+            console.log("submitting sign up form")
             let form = new FormData(e.target)
         }
 
@@ -77,12 +77,17 @@ export default class SignupForm extends React.Component {
         return (
             <form action="/api/tracker/signup" method="post" onSubmit={this.validateAndSubmit} noValidate>
                 
+                <div className="form-group">
+                    <h2>Sign up</h2>
+                    <small>or <a href="" onClick={this.switchToSignin}>sign in to your account</a></small>
+                </div>
+
                 <InputField
                     inputName="username"
                     displayName="Username"
                     inputType="text"
                     feedback={this.state.usernameFeedback}
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                 />
                 
                 <InputField
@@ -90,7 +95,7 @@ export default class SignupForm extends React.Component {
                     displayName="Password"
                     inputType="password"
                     feedback={this.state.passwordFeedback}
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                 />
                 
                 <InputField
@@ -98,16 +103,13 @@ export default class SignupForm extends React.Component {
                     displayName="Email"
                     inputType="email"
                     feedback={this.state.emailFeedback}
-                    autocomplete="email"
+                    autoComplete="email"
                 />
 
                 <div className="form-group">
                     <button className="btn btn-primary" type="submit" value="Sign Up">
                         Sign up
-                        </button>
-                    <span className="btn">
-                        <a href="" onClick={this.switchToSignin}>or sign in to your account</a>
-                    </span>
+                    </button>
                 </div>
 
             </form>
