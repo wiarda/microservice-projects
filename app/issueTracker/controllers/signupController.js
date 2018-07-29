@@ -1,8 +1,8 @@
 import Users from '../models/Users';
 
-export function signup(req,res){
+export function signup(req, res) {
     console.log(req.user)
-    let {username, password, email} = req.body;
+    let { username, password, email } = req.body;
     console.log("signup request", req.body)
 
     let user = new Users({
@@ -11,30 +11,39 @@ export function signup(req,res){
 
     user.setPassword(password);
 
-    let newAccount = user.save(function(err,user){
+    let newAccount = user.save(function (err, user) {
         if (err) {
             let message = handleMongoErr(err);
             console.log("signup error", err.message)
-            res.json({type: "signupErr", message})
+            res.json({ type: "signupErr", message })
         }
         else {
             console.log("account creation successful");
-            res.json({type:"signupSuccess", message:"You've signed up!"})
+            res.json({ type: "signupSuccess", message: "You've signed up!" })
         }
-    })    
+    })
 };
 
-function handleMongoErr(err){
-    switch (err.code){
+function handleMongoErr(err) {
+    switch (err.code) {
         case "11000":
             return "This account name is already taken, please choose another."
-        
+
         default:
             return "There was an error signing up, please try again."
     }
 }
 
-export async function isUsernameUnique(username){
-    let document = await Users.findOne({username})
-    console.log(document)
+export function isUsernameUnique(req, res, next) {
+    console.log("is username unique?");
+    let {username} = req.query;
+
+    Users.findOne({ username }
+        , "username"
+        , function(err,user){
+            if (err) res.json({type:"error"})
+            if (user) res.json({type:"duplicate",username, user})
+            else res.json({type:"unique", username})
+        }
+    )
 }

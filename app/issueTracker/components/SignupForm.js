@@ -6,6 +6,8 @@ const DEFAULT_STATE = {
     usernameFeedback: null
     , passwordFeedback: null
     , emailFeedback: null
+    , usernameValue: null
+    , isUnique: null
 };
 
 export default class SignupForm extends React.Component {
@@ -14,6 +16,8 @@ export default class SignupForm extends React.Component {
         this.state = DEFAULT_STATE;
         this.switchToSignin = this.switchToSignin.bind(this)
         this.validateAndSubmit = this.validateAndSubmit.bind(this)
+        this.uniqueCheckHandler = this.uniqueCheckHandler.bind(this)
+        this.isUsernameUnique = this.isUsernameUnique.bind(this)
     }
 
     switchToSignin(e) {
@@ -61,8 +65,8 @@ export default class SignupForm extends React.Component {
 
         // give validation feedback
         if (invalid) {
-            console.log("updating validation state",usernameFeedback,emailFeedback,passwordFeedback)
-            this.setState({usernameFeedback, emailFeedback, passwordFeedback})
+            console.log("updating validation state", usernameFeedback, emailFeedback, passwordFeedback)
+            this.setState({ usernameFeedback, emailFeedback, passwordFeedback })
         }
 
         // submit form
@@ -73,10 +77,45 @@ export default class SignupForm extends React.Component {
 
     }
 
+    uniqueCheckHandler(e) {
+        let username = e.target.value;
+
+        // prevent excessive checks while user is inputting username
+        clearTimeout(this.uniqueCheck);
+        if (username.length > 0) {
+            this.uniqueCheck = setTimeout(function () {
+                this.isUsernameUnique(username)
+            }.bind(this), 500);
+        }
+
+        // log the current username form value and reset the unique feedback
+        this.setState({ usernameValue: username, isUnique: null })
+    }
+
+    isUsernameUnique(username) {
+        fetch(
+            `tracker/checkaccount?username=${username}`
+            , { method: "get" }
+        ).then(body => body.json())
+            .then(res => {
+                console.log(res)
+                // feedback if chosen username is unique and
+                // api response is for current username value
+                if (res.type == "unique" && this.state.usernameValue === res.username) {
+                    this.setState({ isUnique: "unique" })
+                }
+                // feedback if username already taken
+                else if (res.type == "duplicate" && this.state.usernameValue == res.username) {
+                    this.setState({ isUnique: "duplicate" })
+                }
+            })
+    }
+
     render() {
+
         return (
             <form action="/api/tracker/signup" method="post" onSubmit={this.validateAndSubmit} noValidate>
-                
+
                 <div className="form-group">
                     <h2>Sign up</h2>
                     <small>or <a href="" onClick={this.switchToSignin}>sign in to your account</a></small>
@@ -88,8 +127,16 @@ export default class SignupForm extends React.Component {
                     inputType="text"
                     feedback={this.state.usernameFeedback}
                     autoComplete="new-password"
-                />
-                
+                    onChange={this.uniqueCheckHandler}
+                >
+                    <div
+                        className="input--success-indicator"
+                        data-visibility={this.state.isUnique ? true : false}
+                    >
+                        {displaySuccessIndicator(this.state.isUnique)}
+                    </div>
+                </InputField>
+
                 <InputField
                     inputName="password"
                     displayName="Password"
@@ -97,7 +144,7 @@ export default class SignupForm extends React.Component {
                     feedback={this.state.passwordFeedback}
                     autoComplete="new-password"
                 />
-                
+
                 <InputField
                     inputName="email"
                     displayName="Email"
@@ -118,6 +165,26 @@ export default class SignupForm extends React.Component {
 
 
 }
+
+function displaySuccessIndicator(isUnique) {
+    switch (isUnique) {
+        case "unique":
+            return (
+                <span className="text-success">
+                    Username available
+                </span>
+            )
+        case "duplicate":
+            return (
+                <span className="text-danger">
+                    This username is not available
+                </span>
+            )
+        default:
+            return null
+    }
+}
+
 
 
 function submitForm(e) {
