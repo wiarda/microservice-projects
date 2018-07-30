@@ -28,7 +28,7 @@ export default class SignupForm extends React.Component {
 
     switchToSignin(e) {
         e.preventDefault();
-        this.props.toggleForm("signin");
+        this.props.toggleForm();
     }
 
     validateAndSubmit(e) {
@@ -44,8 +44,12 @@ export default class SignupForm extends React.Component {
         }
         // otherwise, submit form
         else {
-            console.log("submitting sign up form")
+            console.log("Signing up")
             let form = new FormData(e.target)
+            this.props.submitForm("/api/tracker/signup","POST",form)
+            .then(res=>{
+                console.log("signed up, server response:",res)
+            })
         }
     }
 

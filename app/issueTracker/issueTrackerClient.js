@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import TaskListApp from './containers/TaskListApp'
+import TaskListApp from './components/TaskListApp'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers/rootReducer'

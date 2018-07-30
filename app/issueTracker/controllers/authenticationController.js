@@ -28,18 +28,11 @@ function authenticateUser(username, password, done){
  */
 export function login(req,res){
     console.log("authenticating")
-    // console.log(res.locals.user)
-    console.log(req.user)
-    console.log(req.session)
-    let userInfo = {
-        type:"login"
-        ,user: req.user
-        ,tasks:"tasks to add to redux"
-    }
-    // res.json(userInfo)
+    let {username, issues} = req.user
+    
     req.session.save(()=>{
         console.log("session saved", req.session)
-        res.json({type:"loggedin",redirect: req.user.username})
+        res.json({type:"signinSuccess", username, issues})
     })
     //add error handling
 }
@@ -47,8 +40,8 @@ export function login(req,res){
 
 export function isLoggedIn(req,res,next){
     console.log("Checking authentication status")
-    console.log("user", req.user)
-    console.log("session", req.session)
-    console.log("cookie", req.cookie)
+    // console.log("user", req.user)
+    // console.log("Session:", req.session)
+    // console.log("cookie", req.cookie)
     next()
 }

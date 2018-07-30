@@ -17,7 +17,7 @@ export default class SigninForm extends React.Component {
 
     switchToSignup(e) {
         e.preventDefault();
-        this.props.toggleForm("signup");
+        this.props.toggleForm();
     }
 
     validateAndSignin(e){
@@ -49,9 +49,18 @@ export default class SigninForm extends React.Component {
         
         // submit form
         else {
-            console.log("submitting sign in form")
+            console.log("Signing in")
             let form = new FormData(e.target)
+            this.props.submitForm("/api/tracker/login","POST",form,this.signIn)
+            .then(res=>{
+                console.log("sent sign in form, server response:",res)
+            })
         }
+    }
+
+    signIn(apiResponse){
+        console.log("sign in using", apiResponse)
+        console.log(this)
     }
 
     render() {
@@ -89,23 +98,4 @@ export default class SigninForm extends React.Component {
 
         )
     }
-}
-
-function login(e) {
-    e.preventDefault()
-    console.log("submitting form")
-    let form = new FormData(e.target)
-    console.log(form)
-    fetch("/api/tracker/login", {
-        method: "POST"
-        , body: form
-        , credentials: "include"
-    }).then(body => body.json())
-        .then(response => {
-            console.log(response)
-            if (response.type === "loggedin") {
-                console.log("link:", `tracker/${response.redirect}`)
-                // window.location.href=`/api/tracker/${response.redirect}`
-            }
-        })
 }

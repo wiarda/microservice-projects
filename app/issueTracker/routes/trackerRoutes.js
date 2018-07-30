@@ -22,15 +22,8 @@ router.use(cors({
     credentials: true // cookies
     , origin: true
     , methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
-    , exposedHeaders: ['Cookie']
+    // , exposedHeaders: ['Cookie']
 }))
-
-var corsOption = {
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-};
-
 
 // session and user authentication middleware
 router.use(session({

@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 import { createStore} from 'redux';
 import rootReducer from '../reducers/rootReducer'
 import pageTemplate from '../../../components/pageTemplate';
-import TaskListApp from '../containers/TaskListApp'
+
+import TaskListApp from '../components/TaskListApp'
 
 let store = createStore(rootReducer)
 
