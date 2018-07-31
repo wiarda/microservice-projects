@@ -1,7 +1,9 @@
+//react router config
+
 const routes = [
     {
-        path
-        ,exact
+        path: "/signin"
+        ,exact: true
         ,component
     }
-]
+];

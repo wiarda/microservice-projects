@@ -3,8 +3,9 @@ import GridLayout from '../../../components/GridLayout';
 import ServerResponseContainer from '../containers/ServerResponseContainer'
 import LoginSwitchContainer from '../containers/LoginSwitchContainer'
 import NavBarContainer from '../containers/NavBarContainer';
-
-const ROOT = "/api/tracker";
+import UserSwitch from '../containers/UserSwitch.container';
+import { Switch, Route } from 'react-router'
+import { ROOT } from '../appSettings'
 
 export default function TrackerLandingPage(props) {
     return (
@@ -21,7 +22,12 @@ export default function TrackerLandingPage(props) {
 
             <GridLayout title={null}>
 
-                <LoginSwitchContainer/>
+                <Switch>
+                    {/* <Route exact path="/api/tracker/" component={NavBarContainer} /> */}
+                    <Route exact path={ROOT} component={LoginSwitchContainer} />
+                    <Route exact path={ROOT + "/:username"} component={UserSwitch} />
+                </Switch>
+
 
                 <ServerResponseContainer
                     parser={parseTracker}

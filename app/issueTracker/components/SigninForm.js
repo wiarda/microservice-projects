@@ -1,6 +1,7 @@
 import React from 'react'
 import InputField from './InputField'
 import { isAlphanumeric } from 'validator'
+import { Link } from 'react-router-dom'
 
 const DEFAULT_STATE = {
     usernameFeedback: null
@@ -20,7 +21,7 @@ export default class SigninForm extends React.Component {
         this.props.toggleForm();
     }
 
-    validateAndSignin(e){
+    validateAndSignin(e) {
         e.preventDefault()
         let invalid, usernameFeedback, passwordFeedback
 
@@ -44,21 +45,21 @@ export default class SigninForm extends React.Component {
 
         // give validation feedback
         if (invalid) {
-            this.setState({usernameFeedback, passwordFeedback})
+            this.setState({ usernameFeedback, passwordFeedback })
         }
-        
+
         // submit form
         else {
             console.log("Signing in")
             let form = new FormData(e.target)
-            this.props.submitForm("/api/tracker/login","POST",form,this.signIn)
-            .then(res=>{
-                console.log("sent sign in form, server response:",res)
-            })
+            this.props.submitForm("/api/tracker/login", "POST", form, this.signIn)
+                .then(res => {
+                    console.log("sent sign in form, server response:", res)
+                })
         }
     }
 
-    signIn(apiResponse){
+    signIn(apiResponse) {
         console.log("sign in using", apiResponse)
         console.log(this)
     }
@@ -93,6 +94,8 @@ export default class SigninForm extends React.Component {
                         Sign in
                     </button>
                 </div>
+
+                <Link to="/api/tracker/testuser">User page</Link>
 
             </form>
 
