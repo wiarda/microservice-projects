@@ -3,7 +3,7 @@ import UserSwitch from '../components/UserSwitch';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isLoggedIn: state.display.isLoggedIn
+        isSignedIn: state.display.isSignedIn
     };
 };
 

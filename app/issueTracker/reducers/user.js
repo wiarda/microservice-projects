@@ -1,14 +1,12 @@
 const defaultState = {
-    isLoggedIn: false
-    ,username: null
+    username: "user"
+    ,tasks: []
 }
 
 const user = (state=defaultState, action) => {
     switch (action.type) {
-        case "LOG_IN":
-            return {...state, isLoggedIn:true}
-        case "LOG_OUT":
-            return {...state, isLoggedIn:false}
+        case "LOAD_USER":
+            return {username: action.username, tasks: action.tasks}
         default:
             return state
     }

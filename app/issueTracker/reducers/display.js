@@ -1,6 +1,6 @@
 const defaultState = {
     formToDisplay:"signup"
-    ,signedIn: false
+    ,isSignedIn: false
 };
 
 const display = (state=defaultState, action) => {
@@ -8,7 +8,7 @@ const display = (state=defaultState, action) => {
         case "TOGGLE_DISPLAYED_FORM":
             return {...state, formToDisplay: action.formToDisplay}
         case "TOGGLE_SIGNEDIN_STATE":
-            return {...state, signedIn: action.signedIn}
+            return {...state, isSignedIn: action.isSignedIn}
         default:
             return state
     }

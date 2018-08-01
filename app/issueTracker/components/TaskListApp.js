@@ -23,7 +23,6 @@ export default function TrackerLandingPage(props) {
             <GridLayout title={null}>
 
                 <Switch>
-                    {/* <Route exact path="/api/tracker/" component={NavBarContainer} /> */}
                     <Route exact path={ROOT} component={LoginSwitchContainer} />
                     <Route exact path={ROOT + "/:username"} component={UserSwitch} />
                 </Switch>

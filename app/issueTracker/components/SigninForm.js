@@ -54,14 +54,15 @@ export default class SigninForm extends React.Component {
             let form = new FormData(e.target)
             this.props.submitForm("/api/tracker/login", "POST", form, this.signIn)
                 .then(res => {
-                    console.log("sent sign in form, server response:", res)
+                    console.log("submit then", res)
+                    switch (res.type){
+                        case "error":
+                            return
+                        case "success":
+                            return this.props.signIn(res.username, res.issues);
+                    }
                 })
         }
-    }
-
-    signIn(apiResponse) {
-        console.log("sign in using", apiResponse)
-        console.log(this)
     }
 
     render() {

@@ -1,13 +1,14 @@
 import React from 'react'
+import User from './User'
 import { Route, Redirect } from 'react-router'
 import { ROOT } from '../appSettings'
 
 export default (props) => {
     console.log("user switch", props)
-    if (props.isLoggedIn) {
+    if (props.isSignedIn) {
         // user routes
         return (
-            <Route exact path={ROOT + "/:user"} component={<div>User interface here</div>} />
+            <Route exact path={ROOT + "/:user"} component={User} />
         )
     }
     else {

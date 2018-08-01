@@ -32,7 +32,7 @@ export function login(req,res){
     
     req.session.save(()=>{
         console.log("session saved", req.session)
-        res.json({type:"signinSuccess", username, issues})
+        res.json({type:"success", username, issues})
     })
     //add error handling
 }

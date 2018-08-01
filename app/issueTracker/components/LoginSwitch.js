@@ -1,17 +1,25 @@
 import React from 'react';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
-import { Switch, Route } from 'react-router'
-
+import { Redirect } from 'react-router-dom'
+import {ROOT} from '../appSettings'
 
 export default function LoginSwitch(props) {
-    if (props.isLoggedIn) return null;
+
+    if (props.isSignedIn) return <Redirect to={`${ROOT}/${props.username}`}/>;
     else {
         switch (props.formToDisplay) {
             case "signup":
                 return <SignupForm toggleForm={props.displaySignInForm} submitForm={submitForm} />;
             case "signin":
-                return <SigninForm toggleForm={props.displaySignUpForm} submitForm={submitForm} />;
+                return <SigninForm 
+                    toggleForm={props.displaySignUpForm} 
+                    submitForm={submitForm} 
+                    signIn={function(username, tasks){
+                        props.loadUser(username, tasks);
+                        props.signIn();
+                    }} 
+                />;
             default:
                 return null;
         }
