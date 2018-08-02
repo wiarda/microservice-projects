@@ -1,10 +1,10 @@
 import React from 'react';
 import GridLayout from '../../../components/GridLayout';
 import ServerResponseContainer from '../containers/ServerResponseContainer'
-import LoginSwitchContainer from '../containers/LoginSwitchContainer'
+import Routes from '../routes/Routes'
+import RouteSwitch from '../containers/RouteSwitch.container'
 import NavBarContainer from '../containers/NavBarContainer';
-import UserSwitch from '../containers/UserSwitch.container';
-import { Switch, Route } from 'react-router'
+import User from '../containers/User.container'
 import { ROOT } from '../appSettings'
 
 export default function TrackerLandingPage(props) {
@@ -15,18 +15,16 @@ export default function TrackerLandingPage(props) {
                 root={ROOT}
                 brand="TaskList"
                 menuItems={[
-                    ["View Tasks", "/tasks", true]
+                    ["View Tasks", "/view", true]
                     , ["Add Task", "/add", true]
                 ]}
             />
 
             <GridLayout title={null}>
 
-                <Switch>
-                    <Route exact path={ROOT} component={LoginSwitchContainer} />
-                    <Route exact path={ROOT + "/:username"} component={UserSwitch} />
-                </Switch>
+                <Routes/>
 
+                <RouteSwitch/>
 
                 <ServerResponseContainer
                     parser={parseTracker}

@@ -6,7 +6,7 @@ import multer from 'multer'
 import cors from 'cors'
 
 import { localStrategy, login, isLoggedIn } from '../controllers/authenticationController';
-import { landingPage } from '../controllers/trackerController';
+import { landingPage, addTask } from '../controllers/trackerController';
 import { signup, isUsernameUnique } from '../controllers/signupController'
 import Users from '../models/Users';
 
@@ -35,7 +35,7 @@ router.use(session({
         httpOnly: false
         , secure: false
         , path: "/api/tracker"
-        // ,maxAge:36000000
+        , maxAge: 36000000
         // ,domain: "http://localhost:8000/"
     }
 }));
@@ -54,7 +54,12 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-router.get("/", isLoggedIn, landingPage);
+
+// *** ROUTES ***
+
+router.get("/checkaccount", isUsernameUnique);
+
+router.get("/*", isLoggedIn, landingPage);
 
 router.post("/login"
     , upload.array()
@@ -77,14 +82,20 @@ router.post("/login"
 
 router.post("/signup", upload.array(), signup);
 
-router.get("/checkaccount", isUsernameUnique);
 
-router.get("/:account"
+// router.get("/:account"
+//     , isLoggedIn
+//     , function (req, res) {
+//         console.log(req.params)
+//         res.json({ type: "account", user: req.user })
+//     }
+// );
+
+router.post("/addtask",
+    upload.array()
     , isLoggedIn
-    , function (req, res) {
-        console.log(req.params)
-        res.json({ type: "account", user: req.user })
-    }
-);
+    , addTask
+
+)
 
 export default router;
