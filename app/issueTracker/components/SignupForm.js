@@ -46,7 +46,7 @@ export default class SignupForm extends React.Component {
         else {
             console.log("Signing up")
             let form = new FormData(e.target)
-            this.props.submitForm("/api/tracker/signup","POST",form)
+            this.submitForm("/api/tracker/signup","POST",form)
             .then(res=>{
                 console.log("signed up, server response:",res)
             })
@@ -100,6 +100,14 @@ export default class SignupForm extends React.Component {
                     this.setState({ isUnique: "duplicate" })
                 }
             })
+    }
+
+    submitForm(address, method, form) {
+        return fetch(address, {
+            method
+            , body: form
+            , credentials: "include"
+        }).then(body => body.json())
     }
 
     render() {
@@ -183,17 +191,4 @@ function displaySuccessIndicator(isUnique) {
         default:
             return null
     }
-}
-
-function submitForm(e) {
-    e.preventDefault()
-    let form = new FormData(e.target)
-    console.log("form", form)
-    fetch("/api/tracker/signup", {
-        method: "POST"
-        , body: form
-        , credentials: "include"
-    }).then(body => body.json())
-        .then(response => console.log(response))
-
 }

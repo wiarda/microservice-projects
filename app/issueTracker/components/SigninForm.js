@@ -1,7 +1,6 @@
 import React from 'react'
 import InputField from './InputField'
 import { isAlphanumeric } from 'validator'
-import { Link } from 'react-router-dom'
 
 const DEFAULT_STATE = {
     usernameFeedback: null
@@ -16,6 +15,14 @@ export default class SigninForm extends React.Component {
         this.validateAndSignin = this.validateAndSignin.bind(this)
     }
 
+    submitForm(address, method, form) {
+        return fetch(address, {
+            method
+            , body: form
+            , credentials: "include"
+        }).then(body => body.json())
+    }
+    
     switchToSignup(e) {
         e.preventDefault();
         this.props.toggleForm();
@@ -52,7 +59,7 @@ export default class SigninForm extends React.Component {
         else {
             console.log("Signing in")
             let form = new FormData(e.target)
-            this.props.submitForm("/api/tracker/login", "POST", form, this.signIn)
+            this.submitForm("/api/tracker/login", "POST", form, this.signIn)
                 .then(res => {
                     console.log("submit then", res)
                     switch (res.type){
@@ -95,8 +102,6 @@ export default class SigninForm extends React.Component {
                         Sign in
                     </button>
                 </div>
-
-                <Link to="/api/tracker/testuser">User page</Link>
 
             </form>
 

@@ -8,16 +8,15 @@ export default function NavBar({
         , isLoggedIn = false
         , history
         , signOut
+        , username
     }
 ) {
 
-    let menu = generateMenu(menuItems, root);
-
-    console.log("navbar", root)
+    let menu = generateMenu(menuItems);
 
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-            <a className="navbar-brand" href={root}>{brand}</a>
+            <Link className="navbar-brand" to={root}>{brand}</Link>
 
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -28,7 +27,7 @@ export default function NavBar({
                     {menu}
 
                     <li className="nav-item ml-auto" data-visibility={!isLoggedIn}>
-                        <a href="#" className="nav-link">Sign in</a>
+                        <Link to={root+"/signin"} className="nav-link">Sign in</Link>
                     </li>
 
                     <li className="nav-item ml-auto" data-visibility={isLoggedIn}>
@@ -58,12 +57,12 @@ export default function NavBar({
     function generateMenu(menuItems) {
         return menuItems.map(el => {
             let [name, link, showIfLoggedIn] = el;
-            link = root + link;
+            link = `${root}/${username+link}`;
             let visibility = isLoggedIn ? showIfLoggedIn : !showIfLoggedIn
 
             return (
                 <li className="nav-item" key={name} data-visibility={visibility}>
-                    <a href={link} className="nav-link">{name}</a>
+                    <Link to={link} className="nav-link">{name}</Link>
                 </li>
             );
         })

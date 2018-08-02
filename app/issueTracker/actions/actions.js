@@ -3,6 +3,7 @@ export const signIn = () => ({ type: "TOGGLE_SIGNEDIN_STATE", isSignedIn:true })
 export const signOut = () => ({ type: "TOGGLE_SIGNEDIN_STATE", isSignedIn:false });
 export const displaySignInForm = () => ({ type: "TOGGLE_DISPLAYED_FORM", formToDisplay:"signin" });
 export const displaySignUpForm = () => ({ type: "TOGGLE_DISPLAYED_FORM", formToDisplay:"signup" });
+export const toggleUserComponent = (userComponent=null) => ({type:"TOGGLE_USER_LOCATION", userComponent})
 
 // api actions
 export const clearResponse = () => { return { type: "CLEAR_RESPONSE" } };

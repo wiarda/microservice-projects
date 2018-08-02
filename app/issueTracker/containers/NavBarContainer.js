@@ -5,6 +5,7 @@ import {signOut} from '../actions/actions'
 const mapStateToProps = (state, ownProps) => {
     return {
         isLoggedIn: state.display.isSignedIn
+        ,username: state.user.username
     }
 }
 
