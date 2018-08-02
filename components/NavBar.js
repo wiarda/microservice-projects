@@ -9,6 +9,7 @@ export default function NavBar({
         , history
         , signOut
         , username
+        , displaySignInForm
     }
 ) {
 
@@ -27,7 +28,7 @@ export default function NavBar({
                     {menu}
 
                     <li className="nav-item ml-auto" data-visibility={!isLoggedIn}>
-                        <Link to={root+"/signin"} className="nav-link">Sign in</Link>
+                        <a href="" className="nav-link" onClick={displaySigninHandler}>Sign in</a>
                     </li>
 
                     <li className="nav-item ml-auto" data-visibility={isLoggedIn}>
@@ -44,6 +45,11 @@ export default function NavBar({
     function signOutHandler(e) {
         e.preventDefault()
         signOut()
+    }
+
+    function displaySigninHandler(e){
+        e.preventDefault()
+        displaySignInForm()
     }
 
     /**

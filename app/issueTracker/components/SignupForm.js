@@ -28,7 +28,8 @@ export default class SignupForm extends React.Component {
 
     switchToSignin(e) {
         e.preventDefault();
-        this.props.toggleForm();
+        console.log("switching to signin")
+        this.props.displaySignin();
     }
 
     validateAndSubmit(e) {

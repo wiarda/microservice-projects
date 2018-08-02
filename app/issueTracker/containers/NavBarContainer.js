@@ -1,17 +1,19 @@
 import { connect } from 'react-redux'
 import NavBar from '../../../components/NavBar'
-import {signOut} from '../actions/actions'
+import { signOut, displaySignInForm } from '../actions/actions'
+
 
 const mapStateToProps = (state, ownProps) => {
     return {
         isLoggedIn: state.display.isSignedIn
-        ,username: state.user.username
+        , username: state.user.username
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         signOut: () => dispatch(signOut())
+        ,displaySignInForm: () => dispatch(displaySignInForm())
     }
 }
 

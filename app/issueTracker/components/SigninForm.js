@@ -24,8 +24,9 @@ export default class SigninForm extends React.Component {
     }
     
     switchToSignup(e) {
+        console.log("switching to signup")
         e.preventDefault();
-        this.props.toggleForm();
+        this.props.displaySignup();
     }
 
     validateAndSignin(e) {
@@ -73,6 +74,7 @@ export default class SigninForm extends React.Component {
     }
 
     render() {
+        console.log("Signin form",this.props)
         return (
             <form action="/api/tracker/login" method="post" onSubmit={this.validateAndSignin}>
 

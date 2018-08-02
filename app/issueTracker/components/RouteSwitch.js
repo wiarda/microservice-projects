@@ -4,8 +4,6 @@ import { ROOT } from '../appSettings'
 
 export default function LoginSwitch(props) {
 
-    // console.log(props.isSignedIn, props.formToDisplay)
-
     if (props.isSignedIn) {
         let base = `${ROOT}/${props.username}`
         switch (props.userComponent){

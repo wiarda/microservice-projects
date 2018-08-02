@@ -4,7 +4,7 @@ import { displaySignInForm } from '../actions/actions'
 
 const mapDispatchToProps = dispatch => {
    return {
-        toggleForm: ()=>dispatch(displaySignInForm())
+        displaySignin: ()=>dispatch(displaySignInForm())
    };
 };
 

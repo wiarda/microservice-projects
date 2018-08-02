@@ -10,10 +10,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleForm: () => dispatch(displaySignUpForm())
+        displaySignup: () => dispatch(displaySignUpForm())
         , signIn: (username, tasks) => {
             dispatch(loadUserInformation(username, tasks));
-            dispatch(signIn())
         }
     };
 };

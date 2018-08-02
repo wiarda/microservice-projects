@@ -12,6 +12,8 @@ const display = (state=defaultState, action) => {
             return {...state, userComponent: action.userComponent}
         case "TOGGLE_SIGNEDIN_STATE":
             return {...state, isSignedIn: action.isSignedIn}
+        case "LOAD_USER":
+            return {...state, isSignedIn: true}
         default:
             return state
     }

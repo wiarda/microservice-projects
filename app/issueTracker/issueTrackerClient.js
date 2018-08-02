@@ -13,7 +13,10 @@ console.log("hydrating")
 const initialState = window.__STATE
 delete window.__STATE // allow garbage collection
 
-const store = createStore(rootReducer, initialState)
+const store = createStore(rootReducer, initialState,
+    // for redux devtools
+    typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 ReactDOM.hydrate(
     <Provider store={store}>
