@@ -4,18 +4,27 @@ import session from 'express-session'
 import dotenv from "dotenv"
 import multer from 'multer'
 import cors from 'cors'
+import redis from 'connect-redis'
 
 import { localStrategy, login, isLoggedIn } from '../controllers/authenticationController';
 import { landingPage, addTask } from '../controllers/trackerController';
 import { signup, isUsernameUnique } from '../controllers/signupController'
 import Users from '../models/Users';
 
+// load environment variables
+dotenv.config()
+
 const upload = multer()
 const router = express.Router();
 passport.use(localStrategy);
 
-// load environment variables
-dotenv.config()
+// redis configuration
+const RedisStore = redis(session)
+// const client = redis.createClient()
+const redisOptions = {
+    host: 'localhost'
+    ,port: 6379
+};
 
 // cors
 router.use(cors({
@@ -27,7 +36,8 @@ router.use(cors({
 
 // session and user authentication middleware
 router.use(session({
-    secret: process.env.SESSION_SECRET
+    store: new RedisStore(redisOptions)
+    ,secret: process.env.SESSION_SECRET
     , proxy: true // to allow requests from frontend dev
     , resave: false
     , saveUninitialized: true

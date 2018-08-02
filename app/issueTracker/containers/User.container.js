@@ -14,10 +14,10 @@ function User(props) {
             <div>Welcome {props.username}!</div>
             <div>You have {props.taskCount} tasks.</div>
             <div className="row">
-                <Link className="btn btn-primary" to={base + "/view"}>
+                <Link className="btn btn-primary mx-3" to={base + "/view"}>
                     View Tasks
                 </Link>
-                <Link className="btn btn-primary" to={base + "/add"}>
+                <Link className="btn btn-primary mx-3" to={base + "/add"}>
                     Add a Task
                 </Link>
             </div>

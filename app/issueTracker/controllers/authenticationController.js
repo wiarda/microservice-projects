@@ -1,6 +1,9 @@
 import LocalStrategy from 'passport-local'
 import Users from '../models/Users'
 
+
+
+
 export const localStrategy = new LocalStrategy(authenticateUser)
 
 
@@ -40,8 +43,6 @@ export function login(req,res){
 
 export function isLoggedIn(req,res,next){
     console.log("Checking authentication status")
-    // console.log("user", req.user)
     console.log("Session:", req.session)
-    // console.log("cookie", req.cookie)
     next()
 }

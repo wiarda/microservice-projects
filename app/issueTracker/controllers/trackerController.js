@@ -1,14 +1,48 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { store, page } from './serverRender';
+import { Provider } from 'react-redux';
+import { createStore } from '../../../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/redux';
+import rootReducer from '../reducers/rootReducer';
+import pageTemplate from '../../../components/pageTemplate';
+import { StaticRouter } from 'react-router-dom';
+import { page } from './serverRender';
+import { ROOT } from '../appSettings';
 import Users from '../models/Users';
 import Issues from '../models/Issues';
-
-console.log("controller");
-
+import TaskListApp from '../components/TaskListApp'
 
 export function landingPage(req, res) {
-    res.send(page);
+
+    if (req.isAuthenticated()) { //preload state
+        let preloadedState = {
+            display: { isSignedIn: true }
+            , user: { username: req.user.username, tasks: req.user.issues }
+        };
+        let store = createStore(rootReducer, preloadedState);
+        let content = renderToString(
+            <Provider store={store}>
+                <StaticRouter location={ROOT} context={{}}>
+                    <TaskListApp />
+                </StaticRouter>
+            </Provider>
+        );
+        let initialState = store.getState();
+        
+        let statefulLanding = pageTemplate(
+            {
+                title: "To-do App"
+                , content
+                , scriptsArr: ["/build/shared.bundle.js", "/build/tracker.bundle.js"]
+                , stylesArr: ["/build/shared.css", "/build/tracker.css"]
+                , initialState
+            }
+        );
+
+        res.send(statefulLanding);
+    }
+    else {
+        res.send(page); // prerendered version of page with default store
+    }
 }
 
 export async function addTask(req, res) {
@@ -19,9 +53,9 @@ export async function addTask(req, res) {
 
     // add task to db
     let newTask = new Issues({
-        name:task
-        ,status: "Open"
-        ,userId
+        name: task
+        , status: "Open"
+        , userId
     });
     newTask.save(errHandler);
     let taskId = newTask._id
@@ -29,14 +63,14 @@ export async function addTask(req, res) {
 
     // link task in user db
     Users.update(
-        {_id:userId}
-        ,{$push: {issues:taskId}}
-        ,{safe:true}
-        ,function(err, rawResponse){
+        { _id: userId }
+        , { $push: { issues: taskId } }
+        , { safe: true }
+        , function (err, rawResponse) {
             if (err) console.log(err)
             if (rawResponse) { // success
                 console.log(rawResponse)
-                
+
             }
         }
     )
@@ -45,6 +79,6 @@ export async function addTask(req, res) {
 
 
 
-function errHandler(err){
+function errHandler(err) {
     if (err) return console.log(err);
 }
