@@ -20,7 +20,6 @@ passport.use(localStrategy);
 
 // redis configuration
 const RedisStore = redis(session)
-// const client = redis.createClient()
 const redisOptions = {
     host: 'localhost'
     ,port: 6379
@@ -91,15 +90,6 @@ router.post("/login"
 );
 
 router.post("/signup", upload.array(), signup);
-
-
-// router.get("/:account"
-//     , isLoggedIn
-//     , function (req, res) {
-//         console.log(req.params)
-//         res.json({ type: "account", user: req.user })
-//     }
-// );
 
 router.post("/addtask",
     upload.array()

@@ -5,7 +5,7 @@ import Routes from '../routes/Routes'
 import RouteSwitch from '../containers/RouteSwitch.container'
 import NavBarContainer from '../containers/NavBarContainer';
 import User from '../containers/User.container'
-import { ROOT } from '../appSettings'
+import { ROOT, BODY_MIN_WIDTH } from '../appSettings'
 
 export default function TrackerLandingPage(props) {
     return (
@@ -20,7 +20,7 @@ export default function TrackerLandingPage(props) {
                 ]}
             />
 
-            <GridLayout title={null}>
+            <GridLayout title={null} minWidth={BODY_MIN_WIDTH}>
 
                 <Routes/>
 

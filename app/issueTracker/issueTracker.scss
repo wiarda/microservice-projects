@@ -2,13 +2,29 @@
     display:none;
 }
 
+[data-loaded="false"]{
+    color:#6c757d!important;
+}
+
 .input--success-indicator{
     position: absolute;
     top:0;
     right:0;
 }
 
-.cursor--grab{
+.cursor--text{
     cursor: text !important;
     user-select: text !important;
+}
+
+.font--16{
+    font-size: 16;
+}
+
+.add-task__item{
+    width:85%;
+}
+
+.add-task__success-indicator{
+    width:15%;
 }

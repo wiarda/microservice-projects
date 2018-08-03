@@ -11,7 +11,9 @@ const mapDispatchToProps = dispatch => {
 
 const DEFAULT_STATE = {
     taskFeedback: null
+    , taskValidity:  null
     , addedTasks: []
+    , addedStatus: []
     , pickDate: false
 }
 
@@ -20,13 +22,31 @@ class AddTask extends React.Component {
         super(props)
         this.state = DEFAULT_STATE
         this.addTaskHandler = this.addTaskHandler.bind(this)
+        this.clearTask = this.clearTask.bind(this)
+        this.validateTask = this.validateTask.bind(this)
+    }
+
+    validateTask(task){
+        if (task.length === 0) {
+            this.setState({taskFeedback:"Please enter a task", taskValidity:"is-invalid"})
+            return false
+        }
+        else {
+            this.setState({taskFeedback:null, taskValidity:"is-valid"})
+            return true
+        }
+    }
+
+    clearTask(){
+        this.setState({taskValidity:null})
     }
 
     addTaskHandler(e) {
         e.preventDefault()
-        console.log("adding task")
         let form = new FormData(e.target)
+        let task = e.target.task.value
 
+        if (!this.validateTask(task)) return
 
         fetch("/api/tracker/addtask", {
             method: "POST"
@@ -35,11 +55,21 @@ class AddTask extends React.Component {
         })
             .then(body => body.json())
             .then(results => {
-                console.log(results)
+                console.log("results", results)
+
+                this.setState({ addedStatus: [...this.state.addedStatus.slice(0, -1), true] })
                 this.props.addTask(results.newTask)
             })
 
-        this.setState({ addedTasks: [...this.state.addedTasks, e.target.task.value] })
+        // clear field task value
+        e.target.task.value = ""
+        
+        this.setState({
+            addedTasks: [...this.state.addedTasks, task]
+            , addedStatus: [...this.state.addedStatus, false]
+            , taskValidity: null
+            , taskFeedback:null
+        })
     }
 
 
@@ -48,14 +78,17 @@ class AddTask extends React.Component {
         else {
             return taskArray.map((el, ind) => {
                 return (
-                    <div className="form-group" key={ind}>
-                        <span className="btn cursor--grab">
+                    <div key={ind}>
+                        <span className="btn cursor--text text-left add-task__item text-truncate" data-loaded={this.state.addedStatus[ind]}>
                             {`${ind + 1}. ${el}`}
-                            <i class="material-icons text-success">
+                        </span>
+                        <span className="btn float-right cursor--text pr-0 add-task__success-indicator">
+                            <i
+                                className="material-icons text-success align-bottom float-right"
+                                data-visibility={this.state.addedStatus[ind]}
+                            >
                                 check
                             </i>
-                        </span>
-                        <span className="btn float-right cursor--grab pr-0">
                         </span>
                     </div>
                 )
@@ -80,6 +113,9 @@ class AddTask extends React.Component {
                     feedback={this.state.taskFeedback}
                     autoComplete="new-password"
                     showLabel={false}
+                    validity={this.state.taskValidity}
+                    onClick={this.clearTask}
+                    onBlur={this.validateTask}
                 />
 
                 {/* <InputField

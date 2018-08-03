@@ -12,7 +12,8 @@ import Issues from '../models/Issues';
 import TaskListApp from '../components/TaskListApp'
 
 export function landingPage(req, res) {
-
+    console.log("landing page")
+    
     if (req.isAuthenticated()) { //preload state
         let preloadedState = {
             display: { isSignedIn: true }
