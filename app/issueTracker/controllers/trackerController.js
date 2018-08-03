@@ -33,7 +33,7 @@ export function landingPage(req, res) {
                 title: "To-do App"
                 , content
                 , scriptsArr: ["/build/shared.bundle.js", "/build/tracker.bundle.js"]
-                , stylesArr: ["/build/shared.css", "/build/tracker.css"]
+                , stylesArr: ["https://fonts.googleapis.com/icon?family=Material+Icons","/build/shared.css", "/build/tracker.css"]
                 , initialState
             }
         );
@@ -67,10 +67,10 @@ export async function addTask(req, res) {
         , { $push: { issues: taskId } }
         , { safe: true }
         , function (err, rawResponse) {
-            if (err) console.log(err)
+            if (err) console.log("error:", err)
             if (rawResponse) { // success
-                console.log(rawResponse)
-
+                console.log("success:", rawResponse)
+                res.json({type:"addTaskSuccess", newTask})
             }
         }
     )

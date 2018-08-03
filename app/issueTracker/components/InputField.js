@@ -11,10 +11,15 @@ export default function InputField({
     , onClick = null
     , children = null
     , onBlur = null
+    , showLabel = true
 }) {
+
+
     return (
         <div className="form-group position-relative">
-            <label htmlFor={inputName}>{displayName}</label>
+            {showLabel
+            ? <label htmlFor={inputName}>{displayName}</label>
+            : null}
             <input
                 type={inputType}
                 id={inputName}
@@ -23,7 +28,7 @@ export default function InputField({
                 onChange={onChange}
                 onClick={onClick}
                 autoComplete={autoComplete}
-                onBlur={onBlur? e=>onBlur(e.target.value,inputName):null}
+                onBlur={onBlur ? e => onBlur(e.target.value, inputName) : null}
             />
             <small
                 className="form-text text-muted"

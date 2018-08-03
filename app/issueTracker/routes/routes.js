@@ -3,7 +3,7 @@ import {ROOT} from '../appSettings'
 import Signin from '../containers/Signin.container'
 import Signup from '../containers/Signup.container'
 import User from '../containers/User.container'
-import AddTask from '../components/AddTask'
+import AddTask from '../containers/AddTask.container'
 import ViewTasks from '../containers/ViewTasks.container'
 import { Route, Switch } from 'react-router'
 

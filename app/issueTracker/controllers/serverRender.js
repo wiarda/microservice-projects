@@ -26,7 +26,7 @@ export const page = pageTemplate(
         title: "To-do App"
         , content
         , scriptsArr: ["/build/shared.bundle.js", "/build/tracker.bundle.js"]
-        , stylesArr: ["/build/shared.css", "/build/tracker.css"]
+        , stylesArr: ["https://fonts.googleapis.com/icon?family=Material+Icons","/build/shared.css", "/build/tracker.css"]
         , initialState
     }
 )

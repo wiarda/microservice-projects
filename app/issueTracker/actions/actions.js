@@ -11,4 +11,7 @@ export const loadResponse = (jsonResponse = {}) => { return { type: "LOAD_RESPON
 
 // user actions
 export const loadUserInformation = (username, tasks) => ({type:"LOAD_USER", username, tasks})
-
+export const addTask = task => ({
+    type: "ADD_TASK"
+    ,newTask: task
+});
