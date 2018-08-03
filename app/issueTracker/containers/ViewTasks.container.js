@@ -10,15 +10,29 @@ class ViewTasks extends React.Component {
     constructor(props) {
         super(props);
         this.state = DEFAULT_STATE;
+        this.renderTasks = this.renderTasks.bind(this)
+    }
+
+    renderTasks(tasksArray){
+        console.log("rendering tasks", tasksArray)
+        return tasksArray.map((el,ind) => {
+            return (
+                <li key={ind}>
+                    {el.name}
+                </li>
+            )
+        })
     }
 
     render(){
-        return(
-            <div>{this.props.tasks}</div>
+        return (
+            <ul>
+                {this.renderTasks(this.props.tasks)}
+            </ul>
+        
         )
     }
 }
-
 
 const mapStateToProps = (state, ownProps) => {
     return {

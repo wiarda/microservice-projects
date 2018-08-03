@@ -1,0 +1,6 @@
+Todos:
+-server side validation and sanitization of new task submission
+-better server side routing for react-router links
+-intro page
+-user page
+-tasks page: sorting, editing

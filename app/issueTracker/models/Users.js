@@ -9,7 +9,7 @@ const UsersSchema = new Schema(
         ,email: {type:String}
         ,hash: String
         ,salt: String
-        ,issues: [ {type: Schema.Types.ObjectId, ref: "Issue"} ]
+        ,issues: [ {type: Schema.Types.ObjectId, ref: "Issues"} ]
     }, {timestamps: true}
 );
 
