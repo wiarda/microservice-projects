@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { createStore } from '../../../../../../AppData/Local/Microsoft/TypeScript/2.9/node_modules/redux';
+import { createStore } from 'redux';
 import rootReducer from '../reducers/rootReducer';
 import pageTemplate from '../../../components/pageTemplate';
 import { StaticRouter } from 'react-router-dom';
