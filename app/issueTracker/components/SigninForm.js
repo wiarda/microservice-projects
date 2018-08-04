@@ -58,6 +58,7 @@ export default class SigninForm extends React.Component {
 
         // submit form
         else {
+            this.props.showLoadingComponent()
             console.log("Signing in")
             let form = new FormData(e.target)
             this.submitForm("/api/tracker/login", "POST", form, this.signIn)
@@ -76,7 +77,7 @@ export default class SigninForm extends React.Component {
     render() {
         console.log("Signin form",this.props)
         return (
-            <form action="/api/tracker/login" method="post" onSubmit={this.validateAndSignin}>
+            <form action="/api/tracker/login" method="post" onSubmit={this.validateAndSignin} data-isloading={this.props.isLoading}>
 
                 <div className="form-group">
                     <h2>Sign in</h2>
@@ -100,7 +101,7 @@ export default class SigninForm extends React.Component {
                 />
 
                 <div className="form-group">
-                    <button className="btn btn-primary" type="submit">
+                    <button className="btn btn-primary" type="submit" data-btnisloading={this.props.isLoading}>
                         Sign in
                     </button>
                 </div>

@@ -1,11 +1,17 @@
 import LocalStrategy from 'passport-local'
 import Users from '../models/Users'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9c9d856125a1eef3e0c982e7e5ab8d825fbf27a5
 export const localStrategy = new LocalStrategy(authenticateUser)
 
 function authenticateUser(username, password, done){
     console.log("authenticateUser",username,password)
-    Users.findOne({username}, (err,user)=>{
+    Users.findOne({username})
+    .populate("issues")
+    .exec((err,user)=>{
         if (err) {
             console.log(err)
             return done(err);
@@ -41,4 +47,9 @@ export function isLoggedIn(req,res,next){
     console.log("Checking authentication status")
     console.log("Session:", req.session)
     next()
+}
+
+export function signOut(req,res){
+    req.logout()
+    res.json({type:"logoutSuccess"})
 }

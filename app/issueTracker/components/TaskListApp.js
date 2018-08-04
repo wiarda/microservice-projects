@@ -4,7 +4,7 @@ import ServerResponseContainer from '../containers/ServerResponseContainer'
 import Routes from '../routes/Routes'
 import RouteSwitch from '../containers/RouteSwitch.container'
 import NavBarContainer from '../containers/NavBarContainer';
-import User from '../containers/User.container'
+import Loading from '../containers/Loading.container'
 import { ROOT, BODY_MIN_WIDTH } from '../appSettings'
 
 export default function TrackerLandingPage(props) {
@@ -25,6 +25,10 @@ export default function TrackerLandingPage(props) {
                 <Routes/>
 
                 <RouteSwitch/>
+
+                <Loading
+                    spinner={true}
+                />
 
                 <ServerResponseContainer
                     parser={parseTracker}

@@ -16,7 +16,7 @@ export function landingPage(req, res) {
     
     if (req.isAuthenticated()) { //preload state
         let preloadedState = {
-            display: { isSignedIn: true }
+            display: { isSignedIn: true, isLoading:false, loadingMessage:"Loading..." }
             , user: { username: req.user.username, tasks: req.user.issues }
         };
         let store = createStore(rootReducer, preloadedState);
