@@ -55,3 +55,15 @@
     75% { opacity: 0.5; }
     100% { opacity: 0; }
 }
+
+[data-isLoading="true"]{
+    color:#6c757d!important;
+    opacity:0.5;
+}
+
+[data-btnIsLoading="true"]{
+    background-color: #6c757d!important;
+    cursor: initial !important;
+    border:none !important;
+    opacity: 0.5;
+}

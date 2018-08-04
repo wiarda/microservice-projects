@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import SigninForm from '../components/SigninForm';
-import { displaySignUpForm, signIn, loadUserInformation } from '../actions/actions'
+import { displaySignUpForm, loadUserInformation, toggleLoadingComponent } from '../actions/actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
         username: state.user.username
+        ,isLoading: state.display.isLoading
     };
 };
 
@@ -14,6 +15,7 @@ const mapDispatchToProps = dispatch => {
         , signIn: (username, tasks) => {
             dispatch(loadUserInformation(username, tasks));
         }
+        , showLoadingComponent: () => dispatch(toggleLoadingComponent(true,"Loading..."))
     };
 };
 

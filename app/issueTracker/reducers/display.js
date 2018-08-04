@@ -2,6 +2,8 @@ const defaultState = {
     isSignedIn: false
     ,formToDisplay:"signup"
     ,userComponent: null
+    ,isLoading: false
+    ,loadingMessage:"Loading..."
 };
 
 const display = (state=defaultState, action) => {
@@ -13,7 +15,9 @@ const display = (state=defaultState, action) => {
         case "TOGGLE_SIGNEDIN_STATE":
             return {...state, isSignedIn: action.isSignedIn}
         case "LOAD_USER":
-            return {...state, isSignedIn: true}
+            return {...state, isSignedIn: true, isLoading:false, loadingMessage:"Loading..."}
+        case "SET_LOADING":
+            return {...state, isLoading: action.isLoading, loadingMessage: action.loadingMessage}
         default:
             return state
     }
