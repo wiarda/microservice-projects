@@ -1,11 +1,7 @@
 import LocalStrategy from 'passport-local'
 import Users from '../models/Users'
 
-
-
-
 export const localStrategy = new LocalStrategy(authenticateUser)
-
 
 function authenticateUser(username, password, done){
     console.log("authenticateUser",username,password)
