@@ -44,7 +44,14 @@ export default function NavBar({
 
     function signOutHandler(e) {
         e.preventDefault()
-        signOut()
+        fetch(`${root}/signout`,{
+            method:"GET"
+            ,credentials: "include"
+        })
+        .then(()=>{
+            console.log("signing out")
+            signOut()
+        })
     }
 
     function displaySigninHandler(e){

@@ -6,7 +6,7 @@ import multer from 'multer'
 import cors from 'cors'
 import redis from 'connect-redis'
 
-import { localStrategy, login, isLoggedIn } from '../controllers/authenticationController';
+import { localStrategy, login, isLoggedIn, signOut } from '../controllers/authenticationController';
 import { landingPage, addTask } from '../controllers/trackerController';
 import { signup, isUsernameUnique } from '../controllers/signupController'
 import Users from '../models/Users';
@@ -69,6 +69,8 @@ passport.deserializeUser(function (id, done) {
 // *** ROUTES ***
 
 router.get("/checkaccount", isUsernameUnique);
+
+router.get("/signout", signOut);
 
 router.get("/*", isLoggedIn, landingPage);
 
