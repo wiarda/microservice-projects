@@ -9,7 +9,9 @@ export const localStrategy = new LocalStrategy(authenticateUser)
 
 function authenticateUser(username, password, done){
     console.log("authenticateUser",username,password)
-    Users.findOne({username}, (err,user)=>{
+    Users.findOne({username})
+    .populate("issues")
+    .exec((err,user)=>{
         if (err) {
             console.log(err)
             return done(err);
