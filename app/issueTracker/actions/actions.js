@@ -16,3 +16,4 @@ export const addTask = task => ({
     type: "ADD_TASK"
     ,newTask: task
 });
+export const editTask = (task) => ({type:"EDIT_TASK", task})

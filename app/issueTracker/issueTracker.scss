@@ -1,3 +1,4 @@
+// general
 [data-visibility="false"]{
     display:none;
 }
@@ -6,25 +7,41 @@
     color:#6c757d!important;
 }
 
-.input--success-indicator{
-    position: absolute;
-    top:0;
-    right:0;
-}
-
 .cursor--text{
     cursor: text !important;
     user-select: text !important;
 }
 
-.font--16{
-    font-size: 16;
-}
 
+// add task component
 .add-task__item{
     width:85%;
 }
 
 .add-task__success-indicator{
     width:15%;
+}
+
+.add-task__input--success-indicator{
+    position: absolute;
+    top:0;
+    right:0;
+}
+
+
+// view task component
+.view-tasks__select-dropdown{
+    max-width: 200px;
+}
+
+.view-tasks__tasks-list{
+    min-width: 500px;
+}
+
+.view-tasks__task{
+    width:100%;
+}
+
+[data-strike="Complete"]{
+    text-decoration: line-through;
 }
