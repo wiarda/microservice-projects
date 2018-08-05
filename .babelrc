@@ -2,6 +2,7 @@
     "presets": ["env", "react"]
     ,"plugins": [
         ["transform-object-rest-spread",{"useBuildIns":true}]
-        ,"syntax-dynamic-import" 
+        ,"syntax-dynamic-import"
+        ,"react-hot-loader/babel" 
     ]
 }

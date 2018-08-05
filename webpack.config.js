@@ -95,6 +95,9 @@ const devSettings = {
         { test: /\.[jt]sx?$/
           ,exclude: /node_modules/
           ,loader: 'babel-loader'
+          ,options: {
+            cacheDirectory: true // feature of babel-loader to speed up loads by caching
+          }
         }
 
         //process css
