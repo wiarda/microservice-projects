@@ -2,22 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 export default function NavBar({
-        root = ""
-        , brand = "Navigation"
-        , menuItems = []
-        , isLoggedIn = false
-        , history
-        , signOut
-        , username
-        , displaySignInForm
-    }
+    root = ""
+    , brand = "Navigation"
+    , menuItems = []
+    , isLoggedIn = false
+    , history
+    , signOut
+    , displaySignInForm
+    , username
+}
 ) {
 
     let menu = generateMenu(menuItems);
 
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-            <Link className="navbar-brand" to={root}>{brand}</Link>
+            <Link className="navbar-brand" to={isLoggedIn? root+"/"+username : root}>{brand}</Link>
 
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -44,17 +44,17 @@ export default function NavBar({
 
     function signOutHandler(e) {
         e.preventDefault()
-        fetch(`${root}/signout`,{
-            method:"GET"
-            ,credentials: "include"
+        fetch(`${root}/signout`, {
+            method: "GET"
+            , credentials: "include"
         })
-        .then(()=>{
-            console.log("signing out")
-            signOut()
-        })
+            .then(() => {
+                console.log("signing out")
+                signOut()
+            })
     }
 
-    function displaySigninHandler(e){
+    function displaySigninHandler(e) {
         e.preventDefault()
         displaySignInForm()
     }
@@ -70,7 +70,7 @@ export default function NavBar({
     function generateMenu(menuItems) {
         return menuItems.map(el => {
             let [name, link, showIfLoggedIn] = el;
-            link = `${root}/${username+link}`;
+            link = `${root}/${username + link}`;
             let visibility = isLoggedIn ? showIfLoggedIn : !showIfLoggedIn
 
             return (
