@@ -7,7 +7,7 @@ export default function pageTemplate({
     }){
     
         let scripts = scriptsArr.reduce( (acc,cur)=>{
-            return acc + `<script type="text/javascript" src="${cur}" async></script>`
+            return acc + `<script type="text/javascript" src="${cur}" defer></script>`
         },"");
 
         let styles = stylesArr.reduce( (acc,cur)=>{

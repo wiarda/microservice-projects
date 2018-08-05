@@ -7,7 +7,7 @@ import cors from 'cors'
 import redis from 'connect-redis'
 
 import { localStrategy, login, isLoggedIn, signOut } from '../controllers/authenticationController';
-import { landingPage, addTask } from '../controllers/trackerController';
+import { landingPage, addTask, entry, funnel } from '../controllers/trackerController';
 import { signup, isUsernameUnique } from '../controllers/signupController'
 import Users from '../models/Users';
 
@@ -67,13 +67,19 @@ passport.deserializeUser(function (id, done) {
 
 
 // *** ROUTES ***
+router.get("/", entry);
 
 router.get("/checkaccount", isUsernameUnique);
 
 router.get("/signout", signOut);
 
-router.get("/*", isLoggedIn, landingPage);
+router.get("/:user", landingPage)
 
+// redirects on other entry points
+router.get("/*", funnel);
+
+
+// *** forms *** 
 router.post("/login"
     , upload.array()
     , isLoggedIn

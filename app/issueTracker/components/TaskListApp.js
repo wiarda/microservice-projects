@@ -1,4 +1,5 @@
 import React from 'react';
+import {hot} from 'react-hot-loader';
 import GridLayout from '../../../components/GridLayout';
 import ServerResponseContainer from '../containers/ServerResponseContainer'
 import Routes from '../routes/Routes'
@@ -7,7 +8,7 @@ import NavBarContainer from '../containers/NavBarContainer';
 import Loading from '../containers/Loading.container'
 import { ROOT, BODY_MIN_WIDTH } from '../appSettings'
 
-export default function TrackerLandingPage(props) {
+function TrackerLandingPage(props) {
     return (
         <React.Fragment>
 
@@ -60,3 +61,5 @@ function parseTracker(json) {
             return null;
     }
 }
+
+export default hot(module)(TrackerLandingPage)
