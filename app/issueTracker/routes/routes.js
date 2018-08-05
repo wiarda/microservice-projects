@@ -18,6 +18,7 @@ export const routesConfig = [
 ]
 
 
+
 // route component for client use
 export default function Routes(props) {
 

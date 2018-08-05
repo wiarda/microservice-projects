@@ -15,7 +15,7 @@ export default function LoginSwitch(props) {
                 return <Redirect to={base} />
         }
     }
-    else { // 
+    else { // not signed in
         switch (props.formToDisplay){
             case "signin":
                 return <Redirect to={`${ROOT}/signin`} />
