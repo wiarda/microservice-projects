@@ -5,11 +5,12 @@ import Signup from '../containers/Signup.container'
 import User from '../containers/User.container'
 import AddTask from '../containers/AddTask.container'
 import ViewTasks from '../containers/ViewTasks.container'
+import LandingPage from '../components/LandingPage'
 import { Route, Switch } from 'react-router'
 
 // route config for server use
 export const routesConfig = [
-    { name: "root", exact: true, path: ROOT, component: null }
+    { name: "root", exact: true, path: ROOT, component: LandingPage }
     , { name: "signin", exact: true, path: ROOT + "/signin", component: Signin }
     , { name: "signup", exact: true, path: ROOT + "/signup", component: Signup }
     , { name: "user", exact: true, path: ROOT + "/:username", component: User }

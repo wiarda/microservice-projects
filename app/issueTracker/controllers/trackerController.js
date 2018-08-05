@@ -73,7 +73,3 @@ export function entry(req,res){
 
 
 
-
-function errHandler(err) {
-    if (err) return console.log(err);
-}

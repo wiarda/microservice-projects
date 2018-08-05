@@ -21,6 +21,8 @@ export default function LoginSwitch(props) {
                 return <Redirect to={`${ROOT}/signin`} />
             case "signup":
                 return <Redirect to={`${ROOT}/signup`} />
+            case "landing":
+                return <Redirect to={ROOT}/>
             default:
                 return <Redirect to={ROOT} />
         }

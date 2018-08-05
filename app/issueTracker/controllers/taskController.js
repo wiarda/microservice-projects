@@ -1,5 +1,5 @@
 import Issues from '../models/Issues'
-
+import Users from '../models/Users'
 export function changeTaskStatus(req,res){
     Issues.update(
         {_id: req.body.id}
@@ -41,4 +41,9 @@ export async function addTask(req, res) {
         }
     )
 
+}
+
+
+function errHandler(err) {
+    if (err) return console.log(err);
 }

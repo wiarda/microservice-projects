@@ -1,6 +1,6 @@
 const defaultState = {
     isSignedIn: false
-    ,formToDisplay:"signup"
+    ,formToDisplay:"landing"
     ,userComponent: null
     ,isLoading: false
     ,loadingMessage:"Loading..."

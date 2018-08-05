@@ -20,7 +20,7 @@ function User(props) {
     return (
         <div>
             <h2 className="text-center">Welcome {props.username}!</h2>
-            <div className="text-center mt-4">You have {props.taskCount.open} active tasks, and you've completed {props.taskCount.complete} tasks.</div>
+            <div className="text-center mt-4">You have {props.taskCount.open} active {props.taskCount.open===1?"task":"tasks"}, and you've completed {props.taskCount.complete} {props.taskCount.complete===1?"task":"tasks"}.</div>
             <div className="mt-3 justify-content-around w-75 mx-auto">
                 <Link className="btn btn-primary mx-3" to={base + "/view"}>
                     View your tasks
