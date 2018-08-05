@@ -70,37 +70,7 @@ export function entry(req,res){
 
 }
 
-export async function addTask(req, res) {
-    console.log("add task controller");
-    let { task } = req.body;
-    let userId = req.user._id;
-    console.log("task:", task, "userid:", userId);
 
-    // add task to db
-    let newTask = new Issues({
-        name: task
-        , status: "Open"
-        , userId
-    });
-    newTask.save(errHandler);
-    let taskId = newTask._id
-
-
-    // link task in user db
-    Users.update(
-        { _id: userId }
-        , { $push: { issues: taskId } }
-        , { safe: true }
-        , function (err, rawResponse) {
-            if (err) console.log("error:", err)
-            if (rawResponse) { // success
-                console.log("success:", rawResponse)
-                res.json({type:"addTaskSuccess", newTask})
-            }
-        }
-    )
-
-}
 
 
 

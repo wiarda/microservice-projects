@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { editTask } from '../actions/actions';
+import {ROOT} from '../appSettings'
 
 // redux store bindings
 const mapStateToProps = (state, ownProps) => {
@@ -39,6 +40,24 @@ class ViewTasks extends React.Component {
             return el._id === id
         })
         console.log(task)
+
+        // update db 
+        let form = new FormData()
+        let newStatus = task.status === "Open" ? "Complete" : "Open"
+        form.append("id", id)
+        form.append("status", newStatus)
+        console.log("submitting db post")
+        fetch(`${ROOT}/set-status`,
+            {
+                method:"POST"
+                ,body: form
+            }
+        )
+        .then(body=>body.json())
+        .then(res=>console.log(res));
+        
+
+        // update redux store
         this.props.toggleTaskStatus(task)
     }
 

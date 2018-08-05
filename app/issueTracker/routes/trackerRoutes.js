@@ -7,9 +7,10 @@ import cors from 'cors'
 import redis from 'connect-redis'
 
 import { localStrategy, login, isLoggedIn, signOut } from '../controllers/authenticationController';
-import { landingPage, addTask, entry, funnel } from '../controllers/trackerController';
+import { landingPage, entry, funnel } from '../controllers/trackerController';
 import { signup, isUsernameUnique } from '../controllers/signupController'
 import Users from '../models/Users';
+import { changeTaskStatus, addTask } from '../controllers/taskController';
 
 // load environment variables
 dotenv.config()
@@ -82,7 +83,6 @@ router.get("/*", funnel);
 // *** forms *** 
 router.post("/login"
     , upload.array()
-    , isLoggedIn
     , function (req, res, next) {
         passport.authenticate("local", function (err, user, info) {
             if (err) return res.json({ type: "error", message: JSON.stringify(err) })
@@ -103,9 +103,13 @@ router.post("/signup", upload.array(), signup);
 
 router.post("/addtask",
     upload.array()
-    , isLoggedIn
     , addTask
+)
 
+// change task status
+router.post("/set-status",
+    upload.array()
+    ,changeTaskStatus
 )
 
 export default router;
